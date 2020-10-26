@@ -7,9 +7,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_photo"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF909090" />
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -19,8 +17,7 @@
         android:layout_toEndOf="@+id/img_photo"
         android:text="@string/name_dummy"
         android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#00BCD4"/>
+        android:textColor="#0366D6"/>
 
     <TextView
         android:id="@+id/tv_username"

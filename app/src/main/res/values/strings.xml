@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GithubApplication</string>
+    <string name="app_name">Github</string>
 
     <string name="username_dummy">Username Dummy</string>
     <string name="name_dummy">Name Dummy</string>
