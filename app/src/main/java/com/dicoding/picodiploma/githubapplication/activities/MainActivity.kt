@@ -1,10 +1,13 @@
-package com.dicoding.picodiploma.githubapplication
+package com.dicoding.picodiploma.githubapplication.activities
 
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dicoding.picodiploma.githubapplication.R
+import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         // Set layout manager and adapter for recycler view
         viewManager = LinearLayoutManager(this)
-        viewAdapter = UserAdapter(users)
+        viewAdapter =
+            UserAdapter(users)
 
         rv_list.apply{
             setHasFixedSize(true)

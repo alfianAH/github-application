@@ -1,10 +1,12 @@
-package com.dicoding.picodiploma.githubapplication
+package com.dicoding.picodiploma.githubapplication.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dicoding.picodiploma.githubapplication.R
+import com.dicoding.picodiploma.githubapplication.User
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UserAdapter internal constructor(private val users: ArrayList<User>):
@@ -27,7 +29,9 @@ class UserAdapter internal constructor(private val users: ArrayList<User>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_user, parent, false)
-        return ViewHolder(itemView)
+        return ViewHolder(
+            itemView
+        )
     }
 
     override fun getItemCount(): Int = users.size
