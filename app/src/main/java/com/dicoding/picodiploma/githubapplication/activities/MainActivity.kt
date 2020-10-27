@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
+import android.content.Intent
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,7 +11,7 @@ import com.dicoding.picodiploma.githubapplication.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
     // Recycler view
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -39,8 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set layout manager and adapter for recycler view
         viewManager = LinearLayoutManager(this)
-        viewAdapter =
-            UserAdapter(users)
+        viewAdapter = UserAdapter(users, this)
 
         rv_list.apply{
             setHasFixedSize(true)
@@ -81,5 +81,14 @@ class MainActivity : AppCompatActivity() {
 
             users.add(user) // Add user
         }
+    }
+
+    /**
+     * When user click on list
+     */
+    override fun onClick(position: Int) {
+        val moveIntent = Intent(this, DetailActivity::class.java)
+        moveIntent.putExtra(DetailActivity.EXTRA_USER, users[position])
+        startActivity(moveIntent)
     }
 }

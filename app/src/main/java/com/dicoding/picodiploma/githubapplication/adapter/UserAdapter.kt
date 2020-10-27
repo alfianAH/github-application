@@ -9,10 +9,16 @@ import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
 import de.hdodenhof.circleimageview.CircleImageView
 
-class UserAdapter internal constructor(private val users: ArrayList<User>):
+class UserAdapter internal constructor(private val users: ArrayList<User>, onUserListener: OnUserClickListener):
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view){
+    private var onUserClickListener = onUserListener
+
+    class ViewHolder internal constructor(view: View, onUserListener: OnUserClickListener) :
+        RecyclerView.ViewHolder(view), View.OnClickListener{
+
+        private var onUserClickListener: OnUserClickListener = onUserListener
+
         private val tvUserName: TextView = view.findViewById(R.id.tv_username)
         private val tvName: TextView = view.findViewById(R.id.tv_name)
         private val tvLocation: TextView = view.findViewById(R.id.tv_location)
@@ -23,14 +29,25 @@ class UserAdapter internal constructor(private val users: ArrayList<User>):
             tvName.text = user.name
             tvLocation.text = user.location
             imgPhoto.setImageResource(user.photo)
+
+            itemView.setOnClickListener(this)
         }
+
+        override fun onClick(v: View?) {
+            onUserClickListener.onClick(adapterPosition)
+        }
+    }
+
+    interface OnUserClickListener{
+        fun onClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_user, parent, false)
         return ViewHolder(
-            itemView
+            itemView,
+            onUserClickListener
         )
     }
 
