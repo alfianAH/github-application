@@ -6,12 +6,12 @@
     <string name="location_dummy">Location Dummy</string>
     <string name="repository_dummy">Repository Dummy</string>
     <string name="company_dummy">Company Dummy</string>
-    <string name="followers_dummy">Followers Dummy</string>
-    <string name="following_dummy">Following Dummy</string>
+    <string name="follow_dummy">999</string>
 
     <string name="repository">Repositories</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
+    <string name="dot">•</string>
 
     <string-array name="username">
         <item>JakeWharton</item>
