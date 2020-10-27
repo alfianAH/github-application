@@ -3,11 +3,16 @@ package com.dicoding.picodiploma.githubapplication
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: UserAdapter
+//    private lateinit var adapter: UserAdapter
+    // Recycler view
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     // Data
     // String
@@ -22,18 +27,27 @@ class MainActivity : AppCompatActivity() {
     // Photo
     private lateinit var dataPhoto: TypedArray
 
-    private var users = arrayListOf<User>()
+    private var users = ArrayList<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Set adapter
-        adapter = UserAdapter(this)
-        lv_list.adapter = adapter
-
         prepare() // Prepare data
         addItem() // Add data to adapter
+
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = UserAdapter(users)
+
+        // Set adapter
+//        adapter = UserAdapter(this)
+//        lv_list.adapter = adapter
+
+        rv_list.apply{
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
     }
 
     private fun prepare(){
@@ -68,6 +82,5 @@ class MainActivity : AppCompatActivity() {
 
             users.add(user) // Add user
         }
-        adapter.users = users
     }
 }
