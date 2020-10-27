@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-//    private lateinit var adapter: UserAdapter
     // Recycler view
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -36,12 +34,9 @@ class MainActivity : AppCompatActivity() {
         prepare() // Prepare data
         addItem() // Add data to adapter
 
+        // Set layout manager and adapter for recycler view
         viewManager = LinearLayoutManager(this)
         viewAdapter = UserAdapter(users)
-
-        // Set adapter
-//        adapter = UserAdapter(this)
-//        lv_list.adapter = adapter
 
         rv_list.apply{
             setHasFixedSize(true)
