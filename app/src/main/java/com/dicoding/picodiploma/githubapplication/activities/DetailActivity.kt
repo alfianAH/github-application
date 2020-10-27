@@ -17,7 +17,16 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        // Set action bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = user.name // Set the title of activity
+
         setUser(user)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun setUser(user: User){
