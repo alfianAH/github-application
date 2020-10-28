@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
         }
     }
 
+    /**
+     * Prepare data from resources
+     */
     private fun prepare(){
         // Get string
         dataUserName = resources.getStringArray(R.array.username)
@@ -65,6 +68,9 @@ class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
         dataPhoto = resources.obtainTypedArray(R.array.avatar)
     }
 
+    /**
+     * Add item
+     */
     private fun addItem(){
         for(position in dataUserName.indices){
             // Set user

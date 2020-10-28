@@ -38,6 +38,9 @@ class UserAdapter internal constructor(private val users: ArrayList<User>, onUse
         }
     }
 
+    /**
+     * When list is clicked, ...
+     */
     interface OnUserClickListener{
         fun onClick(position: Int)
     }
