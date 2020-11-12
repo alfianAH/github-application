@@ -16,6 +16,7 @@
     <string name="people">People</string>
     <string name="location">Location</string>
     <string name="company">Company</string>
+    <string name="search_user">Search user</string>
 
     <string-array name="username">
         <item>JakeWharton</item>

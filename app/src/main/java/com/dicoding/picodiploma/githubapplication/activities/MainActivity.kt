@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
@@ -33,7 +35,22 @@ class MainActivity : AppCompatActivity() {
 
         prepare() // Prepare data
         addItem() // Add data to adapter
+        showRecyclerView()
 
+        // Search user
+        search_user.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun showRecyclerView(){
         // Set layout manager and adapter for recycler view
         val listUserAdapter = UserAdapter(users)
         rv_list.layoutManager = LinearLayoutManager(this)
@@ -45,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
                 startActivity(moveIntent)
             }
-
         })
     }
 
