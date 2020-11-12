@@ -3,55 +3,47 @@ package com.dicoding.picodiploma.githubapplication.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
-import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserAdapter internal constructor(private val users: ArrayList<User>, onUserListener: OnUserClickListener):
+class UserAdapter (private val users: ArrayList<User>):
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private var onUserClickListener = onUserListener
+    private var onItemClickCallback: OnItemClickCallback? = null
 
-    class ViewHolder internal constructor(view: View, onUserListener: OnUserClickListener) :
-        RecyclerView.ViewHolder(view), View.OnClickListener{
+    inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        private var onUserClickListener: OnUserClickListener = onUserListener
+        fun bind(user: User){
+            with(itemView) {
+                tv_username.text = user.username
+                tv_name.text = user.name
+                tv_location.text = user.location
+                img_photo.setImageResource(user.photo)
 
-        private val tvUserName: TextView = view.findViewById(R.id.tv_username)
-        private val tvName: TextView = view.findViewById(R.id.tv_name)
-        private val tvLocation: TextView = view.findViewById(R.id.tv_location)
-        private val imgPhoto: CircleImageView = view.findViewById(R.id.img_photo)
-
-        internal fun bind(user: User){
-            tvUserName.text = user.username
-            tvName.text = user.name
-            tvLocation.text = user.location
-            imgPhoto.setImageResource(user.photo)
-
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            onUserClickListener.onClick(adapterPosition)
+                itemView.setOnClickListener {
+                    onItemClickCallback?.onItemClicked(user)
+                }
+            }
         }
     }
 
     /**
      * When list is clicked, ...
      */
-    interface OnUserClickListener{
-        fun onClick(position: Int)
+    interface OnItemClickCallback{
+        fun onItemClicked(user: User)
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        this.onItemClickCallback = onItemClickCallback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_user, parent, false)
-        return ViewHolder(
-            itemView,
-            onUserClickListener
-        )
+        return ViewHolder(itemView)
     }
 
     override fun getItemCount(): Int = users.size

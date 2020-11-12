@@ -5,16 +5,12 @@ import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
-    // Recycler view
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+class MainActivity : AppCompatActivity() {
 
     // Data
     // String
@@ -39,14 +35,18 @@ class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
         addItem() // Add data to adapter
 
         // Set layout manager and adapter for recycler view
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = UserAdapter(users, this)
+        val listUserAdapter = UserAdapter(users)
+        rv_list.layoutManager = LinearLayoutManager(this)
+        rv_list.adapter = listUserAdapter
 
-        rv_list.apply{
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
+        listUserAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback{
+            override fun onItemClicked(user: User) {
+                val moveIntent = Intent(this@MainActivity, DetailActivity::class.java)
+                moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
+                startActivity(moveIntent)
+            }
+
+        })
     }
 
     /**
@@ -87,14 +87,5 @@ class MainActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
 
             users.add(user) // Add user
         }
-    }
-
-    /**
-     * When user click on list
-     */
-    override fun onClick(position: Int) {
-        val moveIntent = Intent(this, DetailActivity::class.java)
-        moveIntent.putExtra(DetailActivity.EXTRA_USER, users[position])
-        startActivity(moveIntent)
     }
 }
