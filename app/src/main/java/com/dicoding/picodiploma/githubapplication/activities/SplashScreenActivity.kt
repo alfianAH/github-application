@@ -13,7 +13,7 @@ class SplashScreenActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         // Delay activity
-        Handler().postDelayed({
+        Handler(mainLooper).postDelayed({
             // Move activity after delay
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
