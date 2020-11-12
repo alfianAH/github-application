@@ -12,6 +12,10 @@
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="dot">•</string>
+    <string name="github_logo">Github Logo</string>
+    <string name="people">People</string>
+    <string name="location">Location</string>
+    <string name="company">Company</string>
 
     <string-array name="username">
         <item>JakeWharton</item>
