@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +16,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    // Data
-    // String
     private lateinit var dataUserName: Array<String>
 
     private lateinit var userAdapter: UserAdapter
@@ -63,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Show loading when state is true
+     * Hide loading when state is false
+     */
     private fun showLoading(state: Boolean){
         if(state){
             progress_bar.visibility = View.VISIBLE
@@ -71,6 +72,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Show Recycler View
+     */
     private fun showRecyclerView(){
         // Set layout manager and adapter for recycler view
         userAdapter = UserAdapter()
@@ -82,12 +86,15 @@ class MainActivity : AppCompatActivity() {
         userAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback{
             override fun onItemClicked(user: User) {
                 val moveIntent = Intent(this@MainActivity, DetailActivity::class.java)
-                moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
+                moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
                 startActivity(moveIntent)
             }
         })
     }
 
+    /**
+     * Prepare Initial Data From API
+     */
     private fun prepareDataFromApi(){
         // Get username from resources
         if(!mainActivityViewModel.isLoaded) {

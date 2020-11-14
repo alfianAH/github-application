@@ -2,27 +2,46 @@ package com.dicoding.picodiploma.githubapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
+    private lateinit var detailActivityViewModel: DetailActivityViewModel
+
     companion object{
-        const val EXTRA_USER = "extra_user"
+        const val EXTRA_URL_PROFILE = "extra_url_profile"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(DetailActivityViewModel::class.java)
+
+        val extraUrlProfile = intent.getStringExtra(EXTRA_URL_PROFILE)
+
+        if (extraUrlProfile != null) {
+            detailActivityViewModel.setUserProfile(extraUrlProfile)
+        }
+
+        // Get User Profile
+        detailActivityViewModel.getUserProfile().observe(this, Observer { userProfile ->
+            if(userProfile != null){
+                title = userProfile.name // Set the title of activity
+                setUser(userProfile)
+            }
+        })
+
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        title = user.name // Set the title of activity
-
-        setUser(user)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -38,12 +57,20 @@ class DetailActivity : AppCompatActivity() {
         Glide.with(this)
             .load(user.photo)
             .into(img_photo)
-        tv_name.text = user.name
+        tv_name.text = checkNullData(user.name)
         tv_username.text = user.username
         follower.text = followersText
         following.text = followingText
-        tv_location.text = user.location
-        tv_company.text = user.company
+        tv_location.text = checkNullData(user.location)
+        tv_company.text = checkNullData(user.company)
         tv_repositories.text = repositoryText
+    }
+
+    private fun checkNullData(data: String?): String{
+        return if(data == "null"){
+            "-"
+        } else{
+            data.toString()
+        }
     }
 }
