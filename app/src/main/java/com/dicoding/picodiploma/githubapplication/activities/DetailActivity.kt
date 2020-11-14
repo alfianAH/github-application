@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.githubapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -34,7 +35,9 @@ class DetailActivity : AppCompatActivity() {
         val followingText = "${user.following} following"
         val repositoryText = "${user.repositories} repositories"
 
-        img_photo.setImageResource(user.photo)
+        Glide.with(this)
+            .load(user.photo)
+            .into(img_photo)
         tv_name.text = user.name
         tv_username.text = user.username
         follower.text = followersText

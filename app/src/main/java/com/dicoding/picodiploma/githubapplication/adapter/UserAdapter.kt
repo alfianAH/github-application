@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserAdapter (private val users: ArrayList<User>):
-    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private var onItemClickCallback: OnItemClickCallback? = null
+    private val users = ArrayList<User>()
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
@@ -20,7 +21,9 @@ class UserAdapter (private val users: ArrayList<User>):
                 tv_username.text = user.username
                 tv_name.text = user.name
                 tv_location.text = user.location
-                img_photo.setImageResource(user.photo)
+                Glide.with(this)
+                    .load(user.photo)
+                    .into(img_photo)
 
                 itemView.setOnClickListener {
                     onItemClickCallback?.onItemClicked(user)
@@ -50,5 +53,11 @@ class UserAdapter (private val users: ArrayList<User>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(users[position])
+    }
+
+    fun setData(items: ArrayList<User>){
+        users.clear()
+        users.addAll(items)
+        notifyDataSetChanged()
     }
 }
