@@ -7,10 +7,11 @@ import kotlinx.android.parcel.Parcelize
 data class User (
     val photo: String,
     val username: String,
-    val name: String,
-    val location: String,
-    val company: String,
-    val repositories: String,
-    val followers: String,
-    val following: String
+    val name: String? = null,
+    val urlProfile: String,
+    val location: String? = null,
+    val company: String? = null,
+    val repositories: String? = null,
+    val followers: String? = null,
+    val following: String? = null
 ): Parcelable
