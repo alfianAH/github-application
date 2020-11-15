@@ -32,8 +32,8 @@ class DetailActivityViewModel : ViewModel(){
                     val userPhoto = responseObject.getString("avatar_url")
                     val username = responseObject.getString("login")
                     val name = responseObject.getString("name")
-                    val location = responseObject.getString("location")
-                    val company = responseObject.getString("company")
+                    val location = checkNullData(responseObject.getString("location"))
+                    val company = checkNullData(responseObject.getString("company"))
                     val repositories = responseObject.getString("public_repos")
                     val followers = responseObject.getString("followers")
                     val following = responseObject.getString("following")
@@ -64,4 +64,12 @@ class DetailActivityViewModel : ViewModel(){
     }
 
     fun getUserProfile(): LiveData<User> = userProfile
+
+    private fun checkNullData(data: String?): String{
+        return if(data == "null"){
+            "-"
+        } else{
+            data.toString()
+        }
+    }
 }

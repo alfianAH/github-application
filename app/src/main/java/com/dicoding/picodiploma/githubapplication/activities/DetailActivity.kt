@@ -2,7 +2,6 @@ package com.dicoding.picodiploma.githubapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -49,7 +48,7 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setUser(user: User){
+    private fun setUser(user: User) {
         val followersText = "${user.followers} followers"
         val followingText = "${user.following} following"
         val repositoryText = "${user.repositories} repositories"
@@ -57,20 +56,12 @@ class DetailActivity : AppCompatActivity() {
         Glide.with(this)
             .load(user.photo)
             .into(img_photo)
-        tv_name.text = checkNullData(user.name)
+        tv_name.text = user.name
         tv_username.text = user.username
         follower.text = followersText
         following.text = followingText
-        tv_location.text = checkNullData(user.location)
-        tv_company.text = checkNullData(user.company)
+        tv_location.text = user.location
+        tv_company.text = user.company
         tv_repositories.text = repositoryText
-    }
-
-    private fun checkNullData(data: String?): String{
-        return if(data == "null"){
-            "-"
-        } else{
-            data.toString()
-        }
     }
 }
