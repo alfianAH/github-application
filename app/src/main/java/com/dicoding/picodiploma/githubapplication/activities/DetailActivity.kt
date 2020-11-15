@@ -44,6 +44,10 @@ class DetailActivity : AppCompatActivity() {
 
                 // Set tab layout title
                 sectionsPagerAdapter.setPageTitle(userProfile)
+                // Set follow url
+                sectionsPagerAdapter.setFollowUrl(userProfile.followersUrl.toString(),
+                    userProfile.followingUrl.toString())
+
                 view_pager.adapter = sectionsPagerAdapter
                 tabs.setupWithViewPager(view_pager)
             }

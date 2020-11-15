@@ -41,17 +41,9 @@ class MainActivityViewModel: ViewModel() {
                         val name = responseObject.getString("name")
                         val urlProfile = responseObject.getString("url")
                         val location = responseObject.getString("location")
-                        val company = responseObject.getString("company")
-                        val repositories = responseObject.getString("public_repos")
-                        val followers = responseObject.getString("followers")
-                        val following = responseObject.getString("following")
 
                         // Set user
-                        val user = User(
-                            userPhoto, item, name, urlProfile,
-                            location, company,
-                            repositories, followers, following
-                        )
+                        val user = User(userPhoto, item, name, urlProfile, location)
 
                         listItems.add(user)
                         listInitUsersFromApi.postValue(listItems)

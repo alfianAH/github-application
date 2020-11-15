@@ -11,7 +11,9 @@ data class User (
     val urlProfile: String,
     val location: String? = null,
     val company: String? = null,
-    val repositories: String? = null,
-    val followers: String? = null,
-    val following: String? = null
+    val repositories: Int? = null,
+    val followers: Int? = null,
+    val following: Int? = null,
+    val followersUrl: String? = null,
+    val followingUrl: String? = null
 ): Parcelable

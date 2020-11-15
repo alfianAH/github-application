@@ -34,15 +34,17 @@ class DetailActivityViewModel : ViewModel(){
                     val name = responseObject.getString("name")
                     val location = checkNullData(responseObject.getString("location"))
                     val company = checkNullData(responseObject.getString("company"))
-                    val repositories = responseObject.getString("public_repos")
-                    val followers = responseObject.getString("followers")
-                    val following = responseObject.getString("following")
+                    val repositories = responseObject.getInt("public_repos")
+                    val followers = responseObject.getInt("followers")
+                    val following = responseObject.getInt("following")
+                    val followersUrl = responseObject.getString("followers_url")
+                    val followingUrl = "$url/following"
 
                     // Set user
                     val user = User(
                         userPhoto, username, name, url,
                         location, company,
-                        repositories, followers, following
+                        repositories, followers, following, followersUrl, followingUrl
                     )
 
                     userProfile.postValue(user)
@@ -57,9 +59,8 @@ class DetailActivityViewModel : ViewModel(){
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-
+                Log.d("Exception", error?.message.toString())
             }
-
         })
     }
 

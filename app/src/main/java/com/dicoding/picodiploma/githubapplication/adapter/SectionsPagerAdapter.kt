@@ -1,6 +1,7 @@
 package com.dicoding.picodiploma.githubapplication.adapter
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -13,16 +14,18 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     private lateinit var followersValue: String
     private lateinit var followingValue: String
+    private lateinit var followersUrl: String
+    private lateinit var followingUrl: String
 
     override fun getCount(): Int = 2
 
     override fun getItem(position: Int): Fragment {
-        val fragment: Fragment = FollowFragment.newInstance(position+1)
+        var fragment: Fragment = FollowFragment.newInstance(followersUrl)
 
-//        when(position){
-//            0 -> fragment = FollowersFragment.newInstance("Ini followers")
-//            1 -> fragment = FollowersFragment.newInstance("Ini following")
-//        }
+        when(position){
+            0 -> fragment = FollowFragment.newInstance(followersUrl)
+            1 -> fragment = FollowFragment.newInstance(followingUrl)
+        }
 
         return fragment
     }
@@ -36,5 +39,13 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     fun setPageTitle(user: User){
         followersValue = "${user.followers} followers"
         followingValue = "${user.following} following"
+    }
+
+    fun setFollowUrl(followersUrl: String, followingUrl: String){
+        this.followersUrl = followersUrl
+        this.followingUrl = followingUrl
+
+        Log.d("setUrl", followersUrl)
+        Log.d("setUrl", followingUrl)
     }
 }
