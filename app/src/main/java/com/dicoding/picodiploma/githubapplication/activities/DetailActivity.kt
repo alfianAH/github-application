@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.user_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -21,6 +23,9 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        supportActionBar?.elevation = 0f
 
         detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(DetailActivityViewModel::class.java)
@@ -36,6 +41,11 @@ class DetailActivity : AppCompatActivity() {
             if(userProfile != null){
                 title = userProfile.name // Set the title of activity
                 setUser(userProfile)
+
+                // Set tab layout title
+                sectionsPagerAdapter.setPageTitle(userProfile)
+                view_pager.adapter = sectionsPagerAdapter
+                tabs.setupWithViewPager(view_pager)
             }
         })
 
@@ -49,8 +59,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setUser(user: User) {
-        val followersText = "${user.followers} followers"
-        val followingText = "${user.following} following"
         val repositoryText = "${user.repositories} repositories"
 
         Glide.with(this)
@@ -58,8 +66,6 @@ class DetailActivity : AppCompatActivity() {
             .into(img_photo)
         tv_name.text = user.name
         tv_username.text = user.username
-        follower.text = followersText
-        following.text = followingText
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
