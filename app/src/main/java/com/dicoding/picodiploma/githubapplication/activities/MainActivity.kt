@@ -27,10 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         showLoading(true)
 
-        // Get View Model
-        mainActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(MainActivityViewModel::class.java)
-
         prepareDataFromApi()
         showRecyclerView()
 
@@ -96,6 +92,10 @@ class MainActivity : AppCompatActivity() {
      * Prepare Initial Data From API
      */
     private fun prepareDataFromApi(){
+        // Get View Model
+        mainActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MainActivityViewModel::class.java)
+
         // Get username from resources
         if(!mainActivityViewModel.isLoaded) {
             mainActivityViewModel.isLoaded = true

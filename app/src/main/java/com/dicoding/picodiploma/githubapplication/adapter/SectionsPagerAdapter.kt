@@ -44,8 +44,5 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     fun setFollowUrl(followersUrl: String, followingUrl: String){
         this.followersUrl = followersUrl
         this.followingUrl = followingUrl
-
-        Log.d("setUrl", followersUrl)
-        Log.d("setUrl", followingUrl)
     }
 }

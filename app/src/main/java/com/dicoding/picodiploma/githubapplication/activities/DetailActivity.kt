@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.githubapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -27,6 +28,8 @@ class DetailActivity : AppCompatActivity() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         supportActionBar?.elevation = 0f
 
+        showLoading(true)
+
         detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(DetailActivityViewModel::class.java)
 
@@ -50,6 +53,7 @@ class DetailActivity : AppCompatActivity() {
 
                 view_pager.adapter = sectionsPagerAdapter
                 tabs.setupWithViewPager(view_pager)
+                showLoading(false)
             }
         })
 
@@ -73,5 +77,17 @@ class DetailActivity : AppCompatActivity() {
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
+    }
+
+    /**
+     * Show loading when state is true
+     * Hide loading when state is false
+     */
+    private fun showLoading(state: Boolean){
+        if(state){
+            progress_bar.visibility = View.VISIBLE
+        } else{
+            progress_bar.visibility = View.GONE
+        }
     }
 }

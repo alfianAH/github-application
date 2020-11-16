@@ -8,11 +8,15 @@ import com.dicoding.picodiploma.githubapplication.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
+import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
 class DetailActivityViewModel : ViewModel(){
+    var isLoaded = false
+
     private val userProfile = MutableLiveData<User>()
+    private val followProfile = MutableLiveData<ArrayList<User>>()
 
     fun setUserProfile(url: String){
         val client = AsyncHttpClient()
@@ -64,7 +68,54 @@ class DetailActivityViewModel : ViewModel(){
         })
     }
 
+    fun setFollowProfile(followUrl: String){
+        val listUsers = ArrayList<User>()
+
+        val client = AsyncHttpClient()
+        client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
+        client.addHeader("User-Agent", "request")
+
+        client.get(followUrl, object : AsyncHttpResponseHandler() {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray
+            ) {
+                try {
+                    val result = String(responseBody)
+                    val list = JSONArray(result)
+
+                    for (i in 0 until list.length()) {
+                        val user = list.getJSONObject(i)
+
+                        val username = user.getString("login")
+                        val urlProfile = user.getString("url")
+                        val userPhoto = user.getString("avatar_url")
+
+                        val userItems = User(userPhoto, username, urlProfile = urlProfile)
+
+                        listUsers.add(userItems)
+                        followProfile.postValue(listUsers)
+                    }
+                } catch (e: Exception) {
+                    Log.d("Exception", e.message.toString())
+                }
+            }
+
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray,
+                error: Throwable?
+            ) {
+                Log.d("onFailure", error?.message.toString())
+            }
+        })
+    }
+
     fun getUserProfile(): LiveData<User> = userProfile
+
+    fun getFollowProfile(): LiveData<ArrayList<User>> = followProfile
 
     private fun checkNullData(data: String?): String{
         return if(data == "null"){

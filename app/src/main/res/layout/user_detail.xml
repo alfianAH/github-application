@@ -7,6 +7,14 @@
     android:paddingBottom="10dp"
     android:background="@color/colorPrimary">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
     <!--PROFILE IMAGE-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_photo"
@@ -21,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/name_dummy"
+        tools:text="@string/name_dummy"
         android:textAlignment="center"
         android:textSize="25sp"
         android:textColor="#DADADA"
@@ -33,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/username_dummy"
+        tools:text="@string/username_dummy"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textColor="#DADADA"
@@ -57,7 +65,7 @@
             android:id="@+id/tv_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/company_dummy"
+            tools:text="@string/company_dummy"
             android:textColor="#DADADA"
             android:layout_marginStart="10dp"/>
 
@@ -79,7 +87,7 @@
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/location_dummy"
+            tools:text="@string/location_dummy"
             android:textColor="#DADADA"
             android:layout_marginStart="10dp"/>
 
@@ -103,7 +111,7 @@
             android:id="@+id/tv_repositories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/repository_dummy"
+            tools:text="@string/repository_dummy"
             android:textColor="#DADADA"
             android:layout_marginStart="10dp"/>
 
