@@ -12,17 +12,21 @@ import org.json.JSONObject
 import java.lang.Exception
 
 class MainActivityViewModel: ViewModel() {
-    private val listInitUsersFromApi = MutableLiveData<ArrayList<User>>()
-    private val listSearchedUsers = MutableLiveData<ArrayList<User>>()
     var isLoaded = false
 
-    fun setInitUsersFromApi(username: Array<String>){
+    private val listInitUsersFromApi = MutableLiveData<ArrayList<User>>()
+    private val listSearchedUsers = MutableLiveData<ArrayList<User>>()
+    private val client = AsyncHttpClient()
 
-        val listItems = ArrayList<User>()
-
-        val client = AsyncHttpClient()
+    private fun addHeaderClient(){
         client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
         client.addHeader("User-Agent", "request")
+    }
+
+    fun setInitUsersFromApi(username: Array<String>){
+        val listItems = ArrayList<User>()
+
+        addHeaderClient()
 
         for(item in username) {
             val url = "https://api.github.com/users/$item"
@@ -68,9 +72,7 @@ class MainActivityViewModel: ViewModel() {
         val listUsers = ArrayList<User>()
 
         val url = "https://api.github.com/search/users?q=$query"
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
-        client.addHeader("User-Agent", "request")
+        addHeaderClient()
 
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

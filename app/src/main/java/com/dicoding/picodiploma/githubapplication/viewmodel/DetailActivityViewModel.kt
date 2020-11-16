@@ -17,12 +17,15 @@ class DetailActivityViewModel : ViewModel(){
 
     private val userProfile = MutableLiveData<User>()
     private val followProfile = MutableLiveData<ArrayList<User>>()
+    private val client = AsyncHttpClient()
 
-    fun setUserProfile(url: String){
-        val client = AsyncHttpClient()
+    private fun addHeaderClient(){
         client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
         client.addHeader("User-Agent", "request")
+    }
 
+    fun setUserProfile(url: String){
+        addHeaderClient()
         client.get(url, object : AsyncHttpResponseHandler(){
             override fun onSuccess(
                 statusCode: Int,
@@ -71,9 +74,7 @@ class DetailActivityViewModel : ViewModel(){
     fun setFollowProfile(followUrl: String){
         val listUsers = ArrayList<User>()
 
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
-        client.addHeader("User-Agent", "request")
+        addHeaderClient()
 
         client.get(followUrl, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
