@@ -67,7 +67,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setUser(user: User) {
-        val repositoryText = "${user.repositories} repositories"
+        val repositoryText = resources.getQuantityString(
+            R.plurals.numberOfRepositories, user.repositories!!, user.repositories)
 
         Glide.with(this)
             .load(user.photo)

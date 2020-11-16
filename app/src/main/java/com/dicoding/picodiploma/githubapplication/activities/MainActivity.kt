@@ -3,6 +3,8 @@ package com.dicoding.picodiploma.githubapplication.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.lifecycle.Observer
@@ -54,6 +56,22 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.settings){
+            val moveIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(moveIntent)
+            return true
+        }
+
+        return false
     }
 
     /**

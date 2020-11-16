@@ -1,11 +1,11 @@
 package com.dicoding.picodiploma.githubapplication.adapter
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.User
 import com.dicoding.picodiploma.githubapplication.fragments.FollowFragment
 
@@ -37,8 +37,9 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     }
 
     fun setPageTitle(user: User){
-        followersValue = "${user.followers} followers"
-        followingValue = "${user.following} following"
+        followersValue = context.resources.getQuantityString(
+            R.plurals.numberOfFollowers, user.followers!!, user.followers)
+        followingValue = "${user.following} ${context.getString(R.string.following)}"
     }
 
     fun setFollowUrl(followersUrl: String, followingUrl: String){

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Github</string>
+
+    <string name="username_dummy">NamaPengguna Palsu</string>
+    <string name="name_dummy">Nama Palsu</string>
+    <string name="location_dummy">Lokasi Palsu</string>
+    <string name="repository_dummy">Repositori Palsu</string>
+    <string name="company_dummy">Perusahaan Palsu</string>
+    <string name="follow_dummy">999</string>
+
+    <plurals name="numberOfRepositories">
+        <item quantity="other">%d repositori</item>
+    </plurals>
+
+    <plurals name="numberOfFollowers">
+        <item quantity="other">%d pengikut</item>
+    </plurals>
+
+    <string name="repository">repositori</string>
+    <string name="followers">pengikut</string>
+    <string name="following">mengikuti</string>
+    <string name="dot">•</string>
+    <string name="github_logo">Logo Github</string>
+    <string name="people">Orang</string>
+    <string name="location">Lokasi</string>
+    <string name="company">Perusahaan</string>
+    <string name="search_user">Cari pengguna</string>
+    <string name="settings">Pengaturan</string>
+    <string name="change_language">Ubah bahasa</string>
+    <string name="change">Ubah</string>
+
+    <string-array name="username">
+        <item>JakeWharton</item>
+        <item>amitshekhariitbhu</item>
+        <item>romainguy</item>
+        <item>chrisbanes</item>
+        <item>tipsy</item>
+        <item>ravi8x</item>
+        <item>jasoet</item>
+        <item>budioktaviyan</item>
+        <item>hendisantika</item>
+        <item>sidiqpermana</item>
+    </string-array>
+</resources>
