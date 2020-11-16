@@ -13,7 +13,8 @@ import org.json.JSONObject
 import java.lang.Exception
 
 class DetailActivityViewModel : ViewModel(){
-    var isLoaded = false
+    var isFollowProfileLoaded = false
+    var isUserProfileLoaded = false
 
     private val userProfile = MutableLiveData<User>()
     private val followProfile = MutableLiveData<ArrayList<User>>()

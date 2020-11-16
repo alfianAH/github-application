@@ -35,7 +35,8 @@ class DetailActivity : AppCompatActivity() {
 
         val extraUrlProfile = intent.getStringExtra(EXTRA_URL_PROFILE)
 
-        if (extraUrlProfile != null) {
+        if (extraUrlProfile != null && !detailActivityViewModel.isUserProfileLoaded) {
+            detailActivityViewModel.isUserProfileLoaded = true
             detailActivityViewModel.setUserProfile(extraUrlProfile)
         }
 

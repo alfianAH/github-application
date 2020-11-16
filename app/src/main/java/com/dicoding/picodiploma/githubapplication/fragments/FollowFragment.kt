@@ -80,7 +80,8 @@ class FollowFragment : Fragment() {
             .get(DetailActivityViewModel::class.java)
 
         // Set Data
-        if(!detailActivityViewModel.isLoaded){
+        if(!detailActivityViewModel.isFollowProfileLoaded){
+            detailActivityViewModel.isFollowProfileLoaded = true
             detailActivityViewModel.setFollowProfile(urlFollow)
         }
 
