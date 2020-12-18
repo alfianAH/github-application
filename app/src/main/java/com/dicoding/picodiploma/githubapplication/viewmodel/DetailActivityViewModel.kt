@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.picodiploma.githubapplication.BuildConfig
 import com.dicoding.picodiploma.githubapplication.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -21,7 +22,7 @@ class DetailActivityViewModel : ViewModel(){
     private val client = AsyncHttpClient()
 
     private fun addHeaderClient(){
-        client.addHeader("Authorization", "token 3bf06b277f7ab67458be2c2b32852c948d9fdc62")
+        client.addHeader("Authorization", BuildConfig.ApiKey)
         client.addHeader("User-Agent", "request")
     }
 
