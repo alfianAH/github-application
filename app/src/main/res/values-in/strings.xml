@@ -30,6 +30,7 @@
     <string name="change_language">Ubah bahasa</string>
     <string name="change">Ubah</string>
     <string name="favorite">Favorit</string>
+    <string name="favorite_user">User Favorit</string>
 
     <string-array name="username">
         <item>JakeWharton</item>

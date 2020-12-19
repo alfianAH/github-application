@@ -73,7 +73,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favorite -> { // Favorite
-
+                val moveIntent = Intent(this, FavoriteActivity::class.java)
+                startActivity(moveIntent)
+                return true
             }
         }
 
