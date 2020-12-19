@@ -5,13 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
-import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
+import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
+import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import kotlinx.android.synthetic.main.activity_favorite.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var userAdapter: UserAdapter
+    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +29,43 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.favorite_user)
 
         showRecyclerView()
+
+        // Open connection
+        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+        favoriteUserHelper.open()
+
+        loadFavoriteUserAsync()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Close connection when activity is destroyed
+        favoriteUserHelper.close()
+    }
+
+    /**
+     * Load favorite user asynchronously
+     */
+    private fun loadFavoriteUserAsync(){
+        GlobalScope.launch(Dispatchers.Main) {
+            val deferredFavoriteUser = async(Dispatchers.IO) {
+                val cursor = favoriteUserHelper.queryAll()
+                MappingHelper.mapCursorToArrayList(cursor)
+            }
+
+            val favoriteUsers = deferredFavoriteUser.await()
+
+            if(favoriteUsers.size > 0){
+                userAdapter.setData(favoriteUsers)
+            } else{
+                userAdapter.setData(ArrayList())
+            }
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
-import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.entity.User
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
@@ -59,5 +59,30 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
         users.clear()
         users.addAll(items)
         notifyDataSetChanged()
+    }
+
+    /**
+     * Add item to Recycler View
+     */
+    fun addItem(user: User){
+        users.add(user)
+        notifyItemInserted(users.size - 1)
+    }
+
+    /**
+     * Update item in Recycler View
+     */
+    fun updateItem(position: Int, user: User){
+        users[position] = user
+        notifyItemChanged(position, user)
+    }
+
+    /**
+     * Remove item from Recycler View
+     */
+    fun removeItem(position: Int){
+        users.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, users.size)
     }
 }
