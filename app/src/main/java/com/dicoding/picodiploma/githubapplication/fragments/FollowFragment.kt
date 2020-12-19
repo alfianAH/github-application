@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
-import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.activities.DetailActivity
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel

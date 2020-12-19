@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
-import com.dicoding.picodiploma.githubapplication.User
+import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_detail.*

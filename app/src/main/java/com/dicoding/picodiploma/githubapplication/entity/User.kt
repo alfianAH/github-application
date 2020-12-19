@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.githubapplication
+package com.dicoding.picodiploma.githubapplication.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
