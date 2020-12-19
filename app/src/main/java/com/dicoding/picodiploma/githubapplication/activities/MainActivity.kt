@@ -65,10 +65,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.settings){
-            val moveIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(moveIntent)
-            return true
+        when(item.itemId){
+            R.id.settings -> { // Settings
+                val moveIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(moveIntent)
+                return true
+            }
+
+            R.id.favorite -> { // Favorite
+
+            }
         }
 
         return false

@@ -29,6 +29,7 @@
     <string name="settings">Pengaturan</string>
     <string name="change_language">Ubah bahasa</string>
     <string name="change">Ubah</string>
+    <string name="favorite">Favorit</string>
 
     <string-array name="username">
         <item>JakeWharton</item>

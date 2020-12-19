@@ -28,4 +28,14 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/favorite"
+        app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+        app:backgroundTint="@android:color/holo_red_light"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -60,6 +60,16 @@ class DetailActivity : AppCompatActivity() {
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // Initial favorite status
+        var favoriteStatus = false
+        setFavoriteStatus(favoriteStatus)
+
+        // When FAB is clicked, change favorite status
+        fab_favorite.setOnClickListener{
+            favoriteStatus = !favoriteStatus
+            setFavoriteStatus(favoriteStatus)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,6 +89,18 @@ class DetailActivity : AppCompatActivity() {
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
+    }
+
+    /**
+     * Set FAB favorite image resource
+     */
+    private fun setFavoriteStatus(status: Boolean){
+        // If status is true, then favorite
+        if(status){
+            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else{
+            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
     }
 
     /**
