@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.TABLE_NAME
-import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion._ID
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.USERNAME
 import java.sql.SQLException
 
 class FavoriteUserHelper(context: Context) {
@@ -54,19 +54,19 @@ class FavoriteUserHelper(context: Context) {
             null,
             null,
             null,
-            "$_ID ASC"
+            "$USERNAME ASC"
         )
     }
 
     /**
-     * Get data by id
+     * Get data by username
      */
-    fun queryById(id: String): Cursor{
+    fun queryById(username: String): Cursor{
         return database.query(
             DATABASE_TABLE,
             null,
-            "$_ID = ?",
-            arrayOf(id),
+            "$USERNAME LIKE ?",
+            arrayOf("%$username%"),
             null,
             null,
             null,
@@ -84,14 +84,14 @@ class FavoriteUserHelper(context: Context) {
     /**
      * Update data in table
      */
-    fun update(id: String, values: ContentValues?): Int{
-        return database.update(DATABASE_TABLE, values, "$_ID = ?", arrayOf(id))
+    fun update(username: String, values: ContentValues?): Int{
+        return database.update(DATABASE_TABLE, values, "$USERNAME = ?", arrayOf(username))
     }
 
     /**
      * Delete certain data in table
      */
-    fun deleteById(id: String): Int{
-        return database.delete(DATABASE_TABLE, "$_ID = $id", null)
+    fun deleteById(username: String): Int{
+        return database.delete(DATABASE_TABLE, "$USERNAME = $username", null)
     }
 }

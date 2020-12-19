@@ -11,8 +11,11 @@ internal class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         private const val DATABASE_NAME = "githubapp"
         private const val DATABASE_VERSION = 1
         private const val SQL_CREATE_TABLE_NOTE = "CREATE TABLE ${FavoriteUserColumns.TABLE_NAME}" +
-                " (${FavoriteUserColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " ${FavoriteUserColumns.USERNAME} TEXT NOT NULL)"
+                " (${FavoriteUserColumns.USERNAME} TEXT PRIMARY KEY," +
+                " ${FavoriteUserColumns.NAME} TEXT NOT NULL," +
+                " ${FavoriteUserColumns.PHOTO_URL} TEXT NOT NULL," +
+                " ${FavoriteUserColumns.PROFILE_URL} TEXT NOT NULL," +
+                " ${FavoriteUserColumns.LOCATION} TEXT NOT NULL,)"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
