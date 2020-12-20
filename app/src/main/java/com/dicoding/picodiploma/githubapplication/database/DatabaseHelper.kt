@@ -15,7 +15,7 @@ internal class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
                 " ${FavoriteUserColumns.NAME} TEXT NOT NULL," +
                 " ${FavoriteUserColumns.PHOTO_URL} TEXT NOT NULL," +
                 " ${FavoriteUserColumns.PROFILE_URL} TEXT NOT NULL," +
-                " ${FavoriteUserColumns.LOCATION} TEXT NOT NULL,)"
+                " ${FavoriteUserColumns.LOCATION} TEXT NOT NULL)"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
