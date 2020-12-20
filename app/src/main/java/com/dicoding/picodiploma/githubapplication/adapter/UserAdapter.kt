@@ -1,17 +1,21 @@
 package com.dicoding.picodiploma.githubapplication.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dicoding.picodiploma.githubapplication.CustomOnItemClickListener
 import com.dicoding.picodiploma.githubapplication.R
+import com.dicoding.picodiploma.githubapplication.activities.DetailActivity
 import com.dicoding.picodiploma.githubapplication.entity.User
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private var onItemClickCallback: OnItemClickCallback? = null
+    private var onItemClickCallback: CustomOnItemClickListener.OnItemClickCallback? = null
     private val users = ArrayList<User>()
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -25,9 +29,18 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
                     .load(user.photo)
                     .into(img_photo)
 
-                itemView.setOnClickListener {
-                    onItemClickCallback?.onItemClicked(user)
-                }
+                itemView.setOnClickListener(CustomOnItemClickListener(adapterPosition,
+                    object : CustomOnItemClickListener.OnItemClickCallback{
+                    override fun onItemClicked(view: View, position: Int) {
+                        val moveIntent = Intent(activity, DetailActivity::class.java)
+
+                        moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
+                        moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
+                        moveIntent.putExtra(DetailActivity.EXTRA_POSITION, position)
+
+                        activity.startActivityForResult(moveIntent, DetailActivity.REQUEST_UPDATE)
+                    }
+                }))
             }
         }
     }
@@ -35,13 +48,13 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     /**
      * When list is clicked, ...
      */
-    interface OnItemClickCallback{
-        fun onItemClicked(user: User)
-    }
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
-        this.onItemClickCallback = onItemClickCallback
-    }
+//    interface OnItemClickCallback{
+//        fun onItemClicked(user: User)
+//    }
+//
+//    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+//        this.onItemClickCallback = onItemClickCallback
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)

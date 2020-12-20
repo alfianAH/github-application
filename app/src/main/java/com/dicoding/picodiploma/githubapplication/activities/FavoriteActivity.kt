@@ -94,19 +94,10 @@ class FavoriteActivity : AppCompatActivity() {
      * Show Recycler View
      */
     private fun showRecyclerView(){
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter(this)
         userAdapter.notifyDataSetChanged()
 
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.adapter = userAdapter
-
-        userAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback{
-            override fun onItemClicked(user: User) {
-                val moveIntent = Intent(this@FavoriteActivity, DetailActivity::class.java)
-                moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
-                startActivity(moveIntent)
-//                startActivityForResult(moveIntent, DetailActivity.REQUEST_UPDATE)
-            }
-        })
     }
 }

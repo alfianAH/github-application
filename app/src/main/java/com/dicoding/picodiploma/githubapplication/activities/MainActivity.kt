@@ -99,19 +99,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun showRecyclerView(){
         // Set layout manager and adapter for recycler view
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter(this)
         userAdapter.notifyDataSetChanged()
 
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.adapter = userAdapter
-
-        userAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback{
-            override fun onItemClicked(user: User) {
-                val moveIntent = Intent(this@MainActivity, DetailActivity::class.java)
-                moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
-                startActivity(moveIntent)
-            }
-        })
     }
 
     /**

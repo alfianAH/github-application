@@ -1,6 +1,6 @@
 package com.dicoding.picodiploma.githubapplication.fragments
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
-import com.dicoding.picodiploma.githubapplication.entity.User
-import com.dicoding.picodiploma.githubapplication.activities.DetailActivity
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -59,19 +57,11 @@ class FollowFragment : Fragment() {
      */
     private fun showRecyclerView(){
         // Set layout manager and adapter for recycler view
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter(activity as Activity)
         userAdapter.notifyDataSetChanged()
 
         rv_list.layoutManager = LinearLayoutManager(activity)
         rv_list.adapter = userAdapter
-
-        userAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback{
-            override fun onItemClicked(user: User) {
-                val moveIntent = Intent(activity, DetailActivity::class.java)
-                moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
-                startActivity(moveIntent)
-            }
-        })
     }
 
     private fun prepareFollowDataFromApi(){

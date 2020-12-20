@@ -26,12 +26,13 @@ class DetailActivity : AppCompatActivity() {
 
     companion object{
         const val EXTRA_URL_PROFILE = "extra_url_profile"
-//        const val EXTRA_USER = "extra_user"
-//        const val REQUEST_ADD = 100
-//        const val RESULT_ADD = 101
-//        const val REQUEST_UPDATE = 200
-//        const val RESULT_UPDATE = 201
-//        const val RESULT_DELETE = 301
+        const val EXTRA_USER = "extra_user"
+        const val EXTRA_POSITION = "extra_position"
+        const val REQUEST_ADD = 100
+        const val RESULT_ADD = 101
+        const val REQUEST_UPDATE = 200
+        const val RESULT_UPDATE = 201
+        const val RESULT_DELETE = 301
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
