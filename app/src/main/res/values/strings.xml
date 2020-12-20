@@ -34,8 +34,8 @@
     <string name="change">Change</string>
     <string name="favorite">Favorite</string>
     <string name="favorite_user">Favorite User</string>
-    <string name="add_fav_user">was added to favorite user.</string>
-    <string name="remove_fav_user">was removed from favorite user.</string>
+    <string name="add_fav_user">was added to favorite user</string>
+    <string name="remove_fav_user">was removed from favorite user</string>
 
     <string-array name="username">
         <item>JakeWharton</item>
@@ -49,4 +49,8 @@
         <item>hendisantika</item>
         <item>sidiqpermana</item>
     </string-array>
+
+    <string name="add_failed">Failed to add user</string>
+    <string name="update_failed">Failed to update user</string>
+    <string name="delete_failed">Failed to delete user</string>
 </resources>

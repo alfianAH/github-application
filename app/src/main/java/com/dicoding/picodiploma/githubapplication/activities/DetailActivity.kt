@@ -1,14 +1,20 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
+import android.content.ContentValues
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.SectionsPagerAdapter
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract
+import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
+import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.user_detail.*
@@ -16,9 +22,16 @@ import kotlinx.android.synthetic.main.user_detail.*
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailActivityViewModel: DetailActivityViewModel
+    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     companion object{
         const val EXTRA_URL_PROFILE = "extra_url_profile"
+//        const val EXTRA_USER = "extra_user"
+//        const val REQUEST_ADD = 100
+//        const val RESULT_ADD = 101
+//        const val REQUEST_UPDATE = 200
+//        const val RESULT_UPDATE = 201
+//        const val RESULT_DELETE = 301
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,16 +41,20 @@ class DetailActivity : AppCompatActivity() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         supportActionBar?.elevation = 0f
 
+        // Open connection
+        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+        favoriteUserHelper.open()
+
         showLoading(true)
 
-        detailActivityViewModel = ViewModelProvider(this)
+        detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(DetailActivityViewModel::class.java)
 
         val extraUrlProfile = intent.getStringExtra(EXTRA_URL_PROFILE)
 
         if (extraUrlProfile != null && !detailActivityViewModel.isUserProfileLoaded) {
             detailActivityViewModel.isUserProfileLoaded = true
-            detailActivityViewModel.setUserProfile(extraUrlProfile, fab_favorite)
+            detailActivityViewModel.setUserProfile(extraUrlProfile)
         }
 
         // Get User Profile
@@ -54,6 +71,10 @@ class DetailActivity : AppCompatActivity() {
 
                 view_pager.adapter = sectionsPagerAdapter
                 tabs.setupWithViewPager(view_pager)
+
+                // Set listener to favorite button
+                favoriteButtonClickListener(userProfile)
+
                 showLoading(false)
             }
         })
@@ -65,6 +86,12 @@ class DetailActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Close connection when activity is destroyed
+        favoriteUserHelper.close()
     }
 
     private fun setUser(user: User) {
@@ -79,6 +106,92 @@ class DetailActivity : AppCompatActivity() {
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
+    }
+
+    /**
+     * Set FAB favorite image resource
+     */
+    private fun setFavoriteStatus(status: Boolean){
+        // If status is true, then favorite
+        if (status) {
+            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else {
+            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
+    }
+
+    /**
+     * Set favorite button
+     */
+    private fun favoriteButtonClickListener(user: User){
+        var favoriteStatus = false
+
+        if(isFavoriteUserInDatabase(user.username)) {
+            // Initial favorite status
+            favoriteStatus = true
+        }
+        setFavoriteStatus(favoriteStatus)
+
+        // When FAB is clicked, change favorite status
+        fab_favorite.setOnClickListener{
+            favoriteStatus = !favoriteStatus
+
+            val values = ContentValues()
+
+//            val intent = Intent()
+//            intent.putExtra(EXTRA_USER, user)
+
+            // If true, add user to table
+            if(favoriteStatus){
+                values.put(DatabaseContract.FavoriteUserColumns.USERNAME, user.username)
+                values.put(DatabaseContract.FavoriteUserColumns.NAME, user.name)
+                values.put(DatabaseContract.FavoriteUserColumns.PHOTO_URL, user.photo)
+                values.put(DatabaseContract.FavoriteUserColumns.PROFILE_URL, user.urlProfile)
+                values.put(DatabaseContract.FavoriteUserColumns.LOCATION, user.location)
+
+                val result = favoriteUserHelper.insert(values)
+
+                Toast.makeText(this,
+                    "${user.username} ${getString(R.string.add_fav_user)}",
+                    Toast.LENGTH_SHORT).show()
+
+                // Set result for intent
+//                if(result > 0){
+//                    setResult(RESULT_ADD, intent)
+//                } else{
+//                    Toast.makeText(this, getString(R.string.add_failed),
+//                        Toast.LENGTH_SHORT).show()
+//                }
+            } else{ // Else, delete user from table
+                val result = favoriteUserHelper.deleteById(user.username)
+
+                Toast.makeText(this,
+                    "${user.username} ${getString(R.string.remove_fav_user)}",
+                    Toast.LENGTH_SHORT).show()
+
+                // Set result for intent
+//                if(result > 0){
+//                    setResult(RESULT_DELETE, intent)
+//                } else{
+//                    Toast.makeText(this, getString(R.string.delete_failed),
+//                        Toast.LENGTH_SHORT).show()
+//                }
+            }
+            setFavoriteStatus(favoriteStatus)
+        }
+    }
+
+    /**
+     * Check favorite user in database
+     */
+    private fun isFavoriteUserInDatabase(username: String): Boolean{
+        val user = MappingHelper.mapCursorToArrayList(favoriteUserHelper.queryById(username))
+
+        if(user.size > 0){
+            return true
+        }
+
+        return false
     }
 
     /**
