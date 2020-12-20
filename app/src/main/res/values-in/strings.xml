@@ -44,4 +44,6 @@
         <item>hendisantika</item>
         <item>sidiqpermana</item>
     </string-array>
+    <string name="add_fav_user">ditambahkan ke user favorit.</string>
+    <string name="remove_fav_user">dihapus dari user favorit.</string>
 </resources>

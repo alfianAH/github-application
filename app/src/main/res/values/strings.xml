@@ -34,6 +34,8 @@
     <string name="change">Change</string>
     <string name="favorite">Favorite</string>
     <string name="favorite_user">Favorite User</string>
+    <string name="add_fav_user">was added to favorite user.</string>
+    <string name="remove_fav_user">was removed from favorite user.</string>
 
     <string-array name="username">
         <item>JakeWharton</item>

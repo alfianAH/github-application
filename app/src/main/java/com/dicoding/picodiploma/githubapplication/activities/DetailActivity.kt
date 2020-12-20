@@ -30,14 +30,14 @@ class DetailActivity : AppCompatActivity() {
 
         showLoading(true)
 
-        detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+        detailActivityViewModel = ViewModelProvider(this)
             .get(DetailActivityViewModel::class.java)
 
         val extraUrlProfile = intent.getStringExtra(EXTRA_URL_PROFILE)
 
         if (extraUrlProfile != null && !detailActivityViewModel.isUserProfileLoaded) {
             detailActivityViewModel.isUserProfileLoaded = true
-            detailActivityViewModel.setUserProfile(extraUrlProfile)
+            detailActivityViewModel.setUserProfile(extraUrlProfile, fab_favorite)
         }
 
         // Get User Profile
@@ -60,16 +60,6 @@ class DetailActivity : AppCompatActivity() {
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // Initial favorite status
-        var favoriteStatus = false
-        setFavoriteStatus(favoriteStatus)
-
-        // When FAB is clicked, change favorite status
-        fab_favorite.setOnClickListener{
-            favoriteStatus = !favoriteStatus
-            setFavoriteStatus(favoriteStatus)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -89,18 +79,6 @@ class DetailActivity : AppCompatActivity() {
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
-    }
-
-    /**
-     * Set FAB favorite image resource
-     */
-    private fun setFavoriteStatus(status: Boolean){
-        // If status is true, then favorite
-        if(status){
-            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_24)
-        } else{
-            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-        }
     }
 
     /**

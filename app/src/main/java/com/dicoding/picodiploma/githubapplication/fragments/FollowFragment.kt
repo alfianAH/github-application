@@ -76,7 +76,7 @@ class FollowFragment : Fragment() {
 
     private fun prepareFollowDataFromApi(){
         // Get View Model
-        detailActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+        detailActivityViewModel = ViewModelProvider(this)
             .get(DetailActivityViewModel::class.java)
 
         // Set Data
