@@ -54,4 +54,7 @@
     <string name="update_failed">Failed to update user</string>
     <string name="delete_failed">Failed to delete user</string>
     <string name="empty_fav_user">Favorite User is empty</string>
+    <string name="is_reminder_on">Turn reminder on 9 AM</string>
+    <string name="key_reminder" translatable="false">reminder</string>
+    <string name="key_language" translatable="false">language</string>
 </resources>

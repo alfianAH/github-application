@@ -1,11 +1,9 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import com.dicoding.picodiploma.githubapplication.R
-import kotlinx.android.synthetic.main.activity_settings.*
+import com.dicoding.picodiploma.githubapplication.fragments.SettingsFragment
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,10 +12,8 @@ class SettingsActivity : AppCompatActivity() {
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        btn_change.setOnClickListener{
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
-        }
+
+        supportFragmentManager.beginTransaction().add(R.id.container, SettingsFragment()).commit()
     }
 
     override fun onSupportNavigateUp(): Boolean {
