@@ -48,27 +48,33 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteUserHelper.close()
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if(data != null){
-//            when(requestCode){
-//                DetailActivity.REQUEST_UPDATE ->
-//                    when(resultCode){
-//                        DetailActivity.RESULT_ADD -> {
-//                            val user = data.getParcelableExtra<User>(DetailActivity.EXTRA_USER) as User
-//
-//                            userAdapter.addItem(user)
-//                        }
-//
-//                        DetailActivity.RESULT_DELETE -> {
-//
-//                        }
-//                    }
-//
-//            }
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(data != null){
+            when(requestCode){
+                DetailActivity.REQUEST_UPDATE ->
+                    when(resultCode){
+                        DetailActivity.RESULT_ADD -> {
+                            val user = data.getParcelableExtra<User>(DetailActivity.EXTRA_USER) as User
+                            val position = data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
+
+//                            userAdapter.removeItem(position)
+                            userAdapter.addItem(user)
+//                            finish()
+                        }
+
+                        DetailActivity.RESULT_DELETE -> {
+                            val position = data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
+
+                            userAdapter.removeItem(position)
+//                            finish()
+                        }
+                    }
+
+            }
+        }
+    }
 
     /**
      * Load favorite user asynchronously

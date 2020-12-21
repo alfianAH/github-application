@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.user_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
+    private var position: Int = 0
+
     private lateinit var detailActivityViewModel: DetailActivityViewModel
     private lateinit var favoriteUserHelper: FavoriteUserHelper
 
@@ -41,6 +43,8 @@ class DetailActivity : AppCompatActivity() {
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         supportActionBar?.elevation = 0f
+
+        position = intent.getIntExtra(EXTRA_POSITION, 0)
 
         // Open connection
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
@@ -88,6 +92,38 @@ class DetailActivity : AppCompatActivity() {
         finish()
         return true
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if(data != null){
+//            when(requestCode){
+//                REQUEST_UPDATE ->
+//                    when(resultCode){
+//                        RESULT_ADD -> {
+//                            val user = data.getParcelableExtra<User>(EXTRA_USER) as User
+//                            val position = data.getIntExtra(EXTRA_POSITION, 0)
+//
+//                            val intent = Intent()
+//                            intent.putExtra(EXTRA_USER, user)
+//                            intent.putExtra(EXTRA_POSITION, position)
+//
+//                            setResult(RESULT_ADD, intent)
+//                        }
+//
+//                        RESULT_DELETE -> {
+//                            val position = data.getIntExtra(EXTRA_POSITION, 0)
+//
+//                            val intent = Intent()
+//                            intent.putExtra(EXTRA_POSITION, position)
+//
+//                            setResult(RESULT_DELETE, intent)
+//                        }
+//                    }
+//
+//            }
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -139,8 +175,9 @@ class DetailActivity : AppCompatActivity() {
 
             val values = ContentValues()
 
-//            val intent = Intent()
-//            intent.putExtra(EXTRA_USER, user)
+            val intent = Intent()
+            intent.putExtra(EXTRA_USER, user)
+            intent.putExtra(EXTRA_POSITION, position)
 
             // If true, add user to table
             if(favoriteStatus){
@@ -157,12 +194,12 @@ class DetailActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show()
 
                 // Set result for intent
-//                if(result > 0){
-//                    setResult(RESULT_ADD, intent)
-//                } else{
-//                    Toast.makeText(this, getString(R.string.add_failed),
-//                        Toast.LENGTH_SHORT).show()
-//                }
+                if(result > 0){
+                    setResult(RESULT_ADD, intent)
+                } else{
+                    Toast.makeText(this, getString(R.string.add_failed),
+                        Toast.LENGTH_SHORT).show()
+                }
             } else{ // Else, delete user from table
                 val result = favoriteUserHelper.deleteById(user.username)
 
@@ -171,12 +208,12 @@ class DetailActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show()
 
                 // Set result for intent
-//                if(result > 0){
-//                    setResult(RESULT_DELETE, intent)
-//                } else{
-//                    Toast.makeText(this, getString(R.string.delete_failed),
-//                        Toast.LENGTH_SHORT).show()
-//                }
+                if(result > 0){
+                    setResult(RESULT_DELETE, intent)
+                } else{
+                    Toast.makeText(this, getString(R.string.delete_failed),
+                        Toast.LENGTH_SHORT).show()
+                }
             }
             setFavoriteStatus(favoriteStatus)
         }

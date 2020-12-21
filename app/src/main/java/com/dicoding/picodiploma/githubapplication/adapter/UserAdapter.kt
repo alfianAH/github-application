@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.item_user.view.*
 
 class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private var onItemClickCallback: CustomOnItemClickListener.OnItemClickCallback? = null
     private val users = ArrayList<User>()
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -45,16 +44,6 @@ class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdap
         }
     }
 
-    /**
-     * When list is clicked, ...
-     */
-//    interface OnItemClickCallback{
-//        fun onItemClicked(user: User)
-//    }
-//
-//    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
-//        this.onItemClickCallback = onItemClickCallback
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
