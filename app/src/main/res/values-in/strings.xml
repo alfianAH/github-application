@@ -49,4 +49,5 @@
     <string name="add_failed">Gagal menambah user</string>
     <string name="update_failed">Gagal mengupdate user</string>
     <string name="delete_failed">Gagal menghapus user</string>
+    <string name="empty_fav_user">User Favorit masih kosong</string>
 </resources>

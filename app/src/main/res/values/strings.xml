@@ -53,4 +53,5 @@
     <string name="add_failed">Failed to add user</string>
     <string name="update_failed">Failed to update user</string>
     <string name="delete_failed">Failed to delete user</string>
+    <string name="empty_fav_user">Favorite User is empty</string>
 </resources>

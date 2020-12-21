@@ -3,13 +3,16 @@ package com.dicoding.picodiploma.githubapplication.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
+import com.dicoding.picodiploma.githubapplication.viewmodel.FavoriteActivityViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,12 +21,16 @@ import kotlinx.coroutines.launch
 
 class FavoriteActivity : AppCompatActivity() {
 
+    private lateinit var favoriteActivityViewModel: FavoriteActivityViewModel
     private lateinit var userAdapter: UserAdapter
     private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
+
+        favoriteActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(FavoriteActivityViewModel::class.java)
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -35,7 +42,7 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
         favoriteUserHelper.open()
 
-        loadFavoriteUserAsync()
+        loadFavoriteUser()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -53,7 +60,8 @@ class FavoriteActivity : AppCompatActivity() {
         super.onResume()
         // Open and load again if activity is resumed
         favoriteUserHelper.open()
-        loadFavoriteUserAsync()
+        favoriteActivityViewModel.isFavoriteUserLoaded = false
+        loadFavoriteUser()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,6 +86,26 @@ class FavoriteActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun loadFavoriteUser(){
+        if(!favoriteActivityViewModel.isFavoriteUserLoaded){
+            favoriteActivityViewModel.isFavoriteUserLoaded = true
+            favoriteActivityViewModel.loadFavoriteUserAsync(favoriteUserHelper)
+        }
+
+        favoriteActivityViewModel.getFavoriteUser().observe(this, Observer { favoriteUser ->
+            if(favoriteUser != null){
+
+                if(favoriteUser.size > 0){
+                    userAdapter.setData(favoriteUser)
+                } else{
+                    Toast.makeText(this, getString(R.string.empty_fav_user), Toast.LENGTH_SHORT).show()
+                    userAdapter.setData(ArrayList())
+                }
+
+            }
+        })
     }
 
     /**
