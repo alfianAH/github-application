@@ -3,6 +3,7 @@ package com.dicoding.picodiploma.githubapplication.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
@@ -48,6 +49,13 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteUserHelper.close()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Open and load again if activity is resumed
+        favoriteUserHelper.open()
+        loadFavoriteUserAsync()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -57,18 +65,14 @@ class FavoriteActivity : AppCompatActivity() {
                     when(resultCode){
                         DetailActivity.RESULT_ADD -> {
                             val user = data.getParcelableExtra<User>(DetailActivity.EXTRA_USER) as User
-                            val position = data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
 
-//                            userAdapter.removeItem(position)
                             userAdapter.addItem(user)
-//                            finish()
                         }
 
                         DetailActivity.RESULT_DELETE -> {
                             val position = data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
 
                             userAdapter.removeItem(position)
-//                            finish()
                         }
                     }
 

@@ -54,7 +54,7 @@ class FavoriteUserHelper(context: Context) {
             null,
             null,
             null,
-            "$USERNAME ASC"
+            "$USERNAME COLLATE LOCALIZED ASC"
         )
     }
 

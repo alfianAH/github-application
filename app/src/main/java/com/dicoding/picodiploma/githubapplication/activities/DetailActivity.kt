@@ -93,38 +93,6 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if(data != null){
-//            when(requestCode){
-//                REQUEST_UPDATE ->
-//                    when(resultCode){
-//                        RESULT_ADD -> {
-//                            val user = data.getParcelableExtra<User>(EXTRA_USER) as User
-//                            val position = data.getIntExtra(EXTRA_POSITION, 0)
-//
-//                            val intent = Intent()
-//                            intent.putExtra(EXTRA_USER, user)
-//                            intent.putExtra(EXTRA_POSITION, position)
-//
-//                            setResult(RESULT_ADD, intent)
-//                        }
-//
-//                        RESULT_DELETE -> {
-//                            val position = data.getIntExtra(EXTRA_POSITION, 0)
-//
-//                            val intent = Intent()
-//                            intent.putExtra(EXTRA_POSITION, position)
-//
-//                            setResult(RESULT_DELETE, intent)
-//                        }
-//                    }
-//
-//            }
-//        }
-//    }
-
     override fun onDestroy() {
         super.onDestroy()
         // Close connection when activity is destroyed

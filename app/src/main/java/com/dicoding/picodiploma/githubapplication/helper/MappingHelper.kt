@@ -1,6 +1,8 @@
 package com.dicoding.picodiploma.githubapplication.helper
 
 import android.database.Cursor
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.LOCATION
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.NAME
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.PHOTO_URL
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.PROFILE_URL
@@ -14,9 +16,12 @@ object MappingHelper {
         favUserCursor?.apply {
             while (moveToNext()){
                 val username = getString(getColumnIndexOrThrow(USERNAME))
+                val name = getString(getColumnIndexOrThrow(NAME))
                 val photoUrl = getString(getColumnIndexOrThrow(PHOTO_URL))
                 val profileUrl = getString(getColumnIndexOrThrow(PROFILE_URL))
-                userList.add(User(photoUrl, username, urlProfile = profileUrl))
+                val location = getString(getColumnIndexOrThrow(LOCATION))
+
+                userList.add(User(photoUrl, username, name, profileUrl, location))
             }
         }
 
