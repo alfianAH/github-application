@@ -109,26 +109,6 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     /**
-     * Load favorite user asynchronously
-     */
-    private fun loadFavoriteUserAsync(){
-        GlobalScope.launch(Dispatchers.Main) {
-            val deferredFavoriteUser = async(Dispatchers.IO) {
-                val cursor = favoriteUserHelper.queryAll()
-                MappingHelper.mapCursorToArrayList(cursor)
-            }
-
-            val favoriteUsers = deferredFavoriteUser.await()
-
-            if(favoriteUsers.size > 0){
-                userAdapter.setData(favoriteUsers)
-            } else{
-                userAdapter.setData(ArrayList())
-            }
-        }
-    }
-
-    /**
      * Show Recycler View
      */
     private fun showRecyclerView(){

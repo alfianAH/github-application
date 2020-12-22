@@ -50,5 +50,9 @@
     <string name="update_failed">Gagal mengupdate user</string>
     <string name="delete_failed">Gagal menghapus user</string>
     <string name="empty_fav_user">User Favorit masih kosong</string>
-    <string name="is_reminder_on">Nyalakan pengingat jam 09.00</string>
+    <string name="reminder_title">Aktifkan pengingat</string>
+    <string name="reminder_summary">Terima notifikasi pada pukul 09.00</string>
+    <string name="opening_message">Selamat pagi. Semoga harimu menyenangkan.</string>
+    <string name="turn_on_reminder">Pengingat dinyalakan</string>
+    <string name="turn_off_reminder">Pengingat dimatikan</string>
 </resources>
