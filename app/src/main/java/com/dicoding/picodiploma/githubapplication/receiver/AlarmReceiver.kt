@@ -119,6 +119,9 @@ class AlarmReceiver : BroadcastReceiver() {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * Turn off repeating alarm
+     */
     fun cancelAlarm(context: Context, toastMessage: String){
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)

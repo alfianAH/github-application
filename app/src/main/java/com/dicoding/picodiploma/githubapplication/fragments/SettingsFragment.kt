@@ -22,7 +22,6 @@ class SettingsFragment: PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
         init()
-        setSummaries()
 
         changeLanguagePreference.setOnPreferenceClickListener {
             val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
@@ -62,11 +61,5 @@ class SettingsFragment: PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
         isReminderPreference = findPreference<SwitchPreference>(REMINDER) as SwitchPreference
 
         alarmReceiver = AlarmReceiver()
-    }
-
-    private fun setSummaries(){
-        val sh = preferenceManager.sharedPreferences
-
-        isReminderPreference.isChecked = sh.getBoolean(REMINDER, false)
     }
 }
