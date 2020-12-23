@@ -19,8 +19,6 @@ import com.dicoding.picodiploma.githubapplication.databinding.ActivityDetailBind
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import com.dicoding.picodiploma.githubapplication.widget.FavoriteUserWidget
-import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.user_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -70,7 +68,7 @@ class DetailActivity : AppCompatActivity() {
                     userProfile.followingUrl.toString())
 
                 binding.viewPager.adapter = sectionsPagerAdapter
-                binding.tabs.setupWithViewPager(view_pager)
+                binding.tabs.setupWithViewPager(binding.viewPager)
 
                 // Set listener to favorite button
                 favoriteButtonClickListener(userProfile)
@@ -94,7 +92,7 @@ class DetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(user.photo)
-            .into(img_photo)
+            .into(binding.userDetail.imgPhoto)
         binding.userDetail.tvName.text = user.name
         binding.userDetail.tvUsername.text = user.username
         binding.userDetail.tvLocation.text = user.location
