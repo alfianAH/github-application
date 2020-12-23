@@ -10,10 +10,10 @@ import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.Favo
 
 object MappingHelper {
 
-    fun mapCursorToArrayList(favUserCursor: Cursor?): ArrayList<User>{
+    fun mapCursorToArrayList(userCursor: Cursor?): ArrayList<User>{
         val userList = ArrayList<User>()
 
-        favUserCursor?.apply {
+        userCursor?.apply {
             while (moveToNext()){
                 val username = getString(getColumnIndexOrThrow(USERNAME))
                 val name = getString(getColumnIndexOrThrow(NAME))

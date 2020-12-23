@@ -4,18 +4,18 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract
-import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.dicoding.picodiploma.githubapplication.databinding.ActivityDetailBinding
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
@@ -28,17 +28,13 @@ class DetailActivity : AppCompatActivity() {
     private var position: Int = 0
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailActivityViewModel: DetailActivityViewModel
-    private lateinit var favoriteUserHelper: FavoriteUserHelper
+    private lateinit var uriWithUsername: Uri
 
     companion object{
         const val EXTRA_URL_PROFILE = "extra_url_profile"
         const val EXTRA_USER = "extra_user"
         const val EXTRA_POSITION = "extra_position"
-        const val REQUEST_ADD = 100
-        const val RESULT_ADD = 101
         const val REQUEST_UPDATE = 200
-        const val RESULT_UPDATE = 201
-        const val RESULT_DELETE = 301
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +46,6 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f
 
         position = intent.getIntExtra(EXTRA_POSITION, 0)
-
-        // Open connection
-        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
-        favoriteUserHelper.open()
 
         showLoading(true)
 
@@ -70,6 +62,9 @@ class DetailActivity : AppCompatActivity() {
         // Get User Profile
         detailActivityViewModel.getUserProfile().observe(this, { userProfile ->
             if(userProfile != null){
+                // content://com.dicoding.picodiploma.githubapplication/favorite_user_tbl/username
+                uriWithUsername = Uri.parse(CONTENT_URI.toString() + "/" + userProfile.username)
+
                 title = userProfile.name // Set the title of activity
                 setUser(userProfile)
 
@@ -96,12 +91,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Close connection when activity is destroyed
-        favoriteUserHelper.close()
     }
 
     private fun setUser(user: User) {
@@ -136,7 +125,7 @@ class DetailActivity : AppCompatActivity() {
     private fun favoriteButtonClickListener(user: User){
         var favoriteStatus = false
 
-        if(isFavoriteUserInDatabase(user.username)) {
+        if(isFavoriteUserInDatabase()) {
             // Initial favorite status
             favoriteStatus = true
         }
@@ -160,33 +149,22 @@ class DetailActivity : AppCompatActivity() {
                 values.put(DatabaseContract.FavoriteUserColumns.PROFILE_URL, user.urlProfile)
                 values.put(DatabaseContract.FavoriteUserColumns.LOCATION, user.location)
 
-                val result = favoriteUserHelper.insert(values)
+                // Use CONTENT_URI to insert
+                // content://com.dicoding.picodiploma.githubapplication/favorite_user_tbl/
+                contentResolver.insert(CONTENT_URI, values)
 
                 Toast.makeText(this,
                     "${user.username} ${getString(R.string.add_fav_user)}",
                     Toast.LENGTH_SHORT).show()
 
-                // Set result for intent
-                if(result > 0){
-                    setResult(RESULT_ADD, intent)
-                } else{
-                    Toast.makeText(this, getString(R.string.add_failed),
-                        Toast.LENGTH_SHORT).show()
-                }
             } else{ // Else, delete user from table
-                val result = favoriteUserHelper.deleteById(user.username)
+                // Use uriWithId to delete
+                // content://com.dicoding.picodiploma.githubapplication/favorite_user_tbl/username
+                contentResolver.delete(uriWithUsername, null, null)
 
                 Toast.makeText(this,
                     "${user.username} ${getString(R.string.remove_fav_user)}",
                     Toast.LENGTH_SHORT).show()
-
-                // Set result for intent
-                if(result > 0){
-                    setResult(RESULT_DELETE, intent)
-                } else{
-                    Toast.makeText(this, getString(R.string.delete_failed),
-                        Toast.LENGTH_SHORT).show()
-                }
             }
             setFavoriteStatus(favoriteStatus)
 
@@ -199,13 +177,14 @@ class DetailActivity : AppCompatActivity() {
     /**
      * Check favorite user in database
      */
-    private fun isFavoriteUserInDatabase(username: String): Boolean{
-        val user = MappingHelper.mapCursorToArrayList(favoriteUserHelper.queryById(username))
+    private fun isFavoriteUserInDatabase(): Boolean{
+        val cursor = contentResolver.query(uriWithUsername, null, null, null, null)
 
-        if(user.size > 0){
-            return true
+        if(cursor != null) {
+            val user = MappingHelper.mapCursorToArrayList(cursor)
+
+            if (user.size > 0) return true
         }
-
         return false
     }
 

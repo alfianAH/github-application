@@ -3,19 +3,21 @@ package com.dicoding.picodiploma.githubapplication.widget
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Binder
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import java.lang.Exception
 
 internal class StackRemoteViewsFactory(private val context: Context): RemoteViewsService.RemoteViewsFactory {
 
-    private lateinit var favoriteUserHelper: FavoriteUserHelper
+//    private lateinit var favoriteUserHelper: FavoriteUserHelper
     private val TAG = StackRemoteViewsFactory::class.java.simpleName
     private val widgetItems = ArrayList<String>()
 
@@ -24,12 +26,12 @@ internal class StackRemoteViewsFactory(private val context: Context): RemoteView
     }
 
     override fun onDataSetChanged() {
-        favoriteUserHelper = FavoriteUserHelper.getInstance(context)
-        favoriteUserHelper.open()
+        val identityToken = Binder.clearCallingIdentity()
 
-        val users = MappingHelper.mapCursorToArrayList(
-            favoriteUserHelper.queryAll()
-        )
+        val cursor = context.contentResolver.query(
+            CONTENT_URI, null, null, null, null)
+
+        val users = MappingHelper.mapCursorToArrayList(cursor)
 
         if(users.size > 0) {
             widgetItems.clear() // Clear data first
@@ -38,7 +40,7 @@ internal class StackRemoteViewsFactory(private val context: Context): RemoteView
             }
         }
 
-        favoriteUserHelper.close()
+        Binder.restoreCallingIdentity(identityToken)
     }
 
     override fun onDestroy() {

@@ -1,6 +1,5 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
-import android.content.Intent
 import android.database.ContentObserver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,13 +7,11 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
-import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.databinding.ActivityFavoriteBinding
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +23,6 @@ class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
     private lateinit var userAdapter: UserAdapter
-    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     companion object{
         private const val EXTRA_STATE = "extra_state"
@@ -43,22 +39,18 @@ class FavoriteActivity : AppCompatActivity() {
 
         showRecyclerView()
 
-//        val handlerThread = HandlerThread("DataObserver")
-//        handlerThread.start()
-//        val handler = Handler(handlerThread.looper)
-//
-//        val myObserver = object : ContentObserver(handler){
-//            override fun onChange(selfChange: Boolean) {
-//                super.onChange(selfChange)
-//                loadFavoriteUser()
-//            }
-//        }
-//
-//        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
 
-        // Open connection
-        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
-        favoriteUserHelper.open()
+        val myObserver = object : ContentObserver(handler){
+            override fun onChange(selfChange: Boolean) {
+                super.onChange(selfChange)
+                loadFavoriteUserAsync()
+            }
+        }
+
+        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
         if(savedInstanceState == null){
             loadFavoriteUserAsync()
@@ -80,41 +72,10 @@ class FavoriteActivity : AppCompatActivity() {
         outState.putParcelableArrayList(EXTRA_STATE, userAdapter.users)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // Close connection when activity is destroyed
-        favoriteUserHelper.close()
-    }
-
     override fun onResume() {
         super.onResume()
-        // Open and load again if activity is resumed
-        favoriteUserHelper.open()
+        // Load again if activity is resumed
         loadFavoriteUserAsync()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(data != null){
-            when(requestCode){
-                DetailActivity.REQUEST_UPDATE ->
-                    when(resultCode){
-                        DetailActivity.RESULT_ADD -> {
-                            val user = data.getParcelableExtra<User>(DetailActivity.EXTRA_USER) as User
-
-                            userAdapter.addItem(user)
-                        }
-
-                        DetailActivity.RESULT_DELETE -> {
-                            val position = data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
-
-                            userAdapter.removeItem(position)
-                        }
-                    }
-
-            }
-        }
     }
 
     private fun loadFavoriteUserAsync(){
@@ -122,7 +83,8 @@ class FavoriteActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.VISIBLE
 
             val deferredFavoriteUser = async(Dispatchers.IO) {
-                val cursor = favoriteUserHelper.queryAll()
+                // CONTENT_URI = content://com.dicoding.picodiploma.githubapplication/fav_user
+                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
 
