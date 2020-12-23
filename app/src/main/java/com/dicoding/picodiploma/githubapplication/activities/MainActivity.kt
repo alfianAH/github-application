@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel.getSearchedUser().observe(this, { users ->
             // If query is null show init data again
             if (users != null) {
-                userAdapter.setData(users)
+                userAdapter.users = users
                 showLoading(false)
             }
         })
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         mainActivityViewModel.getInitUsersFromApi().observe(this, { users ->
             if (users != null) {
-                userAdapter.setData(users)
+                userAdapter.users = users
                 showLoading(false)
             }
         })

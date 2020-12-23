@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,6 @@ import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.Favo
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.databinding.ActivityFavoriteBinding
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
-import com.dicoding.picodiploma.githubapplication.viewmodel.FavoriteActivityViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -25,17 +25,17 @@ import kotlinx.coroutines.launch
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
-    private lateinit var favoriteActivityViewModel: FavoriteActivityViewModel
     private lateinit var userAdapter: UserAdapter
     private lateinit var favoriteUserHelper: FavoriteUserHelper
+
+    companion object{
+        private const val EXTRA_STATE = "extra_state"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        favoriteActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(FavoriteActivityViewModel::class.java)
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -60,12 +60,24 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
         favoriteUserHelper.open()
 
-        loadFavoriteUser()
+        if(savedInstanceState == null){
+            loadFavoriteUserAsync()
+        } else{
+            val users = savedInstanceState.getParcelableArrayList<User>(EXTRA_STATE)
+            if(users != null){
+                userAdapter.users = users
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(EXTRA_STATE, userAdapter.users)
     }
 
     override fun onDestroy() {
@@ -78,8 +90,7 @@ class FavoriteActivity : AppCompatActivity() {
         super.onResume()
         // Open and load again if activity is resumed
         favoriteUserHelper.open()
-        favoriteActivityViewModel.isFavoriteUserLoaded = false
-        loadFavoriteUser()
+        loadFavoriteUserAsync()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -106,36 +117,26 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadFavoriteUser(){
-        if(!favoriteActivityViewModel.isFavoriteUserLoaded){
-            favoriteActivityViewModel.isFavoriteUserLoaded = true
-            favoriteActivityViewModel.loadFavoriteUserAsync(favoriteUserHelper)
-        }
-
-        favoriteActivityViewModel.getFavoriteUser().observe(this, { favoriteUser ->
-            if(favoriteUser != null){
-
-                if(favoriteUser.size > 0){
-                    userAdapter.setData(favoriteUser)
-                } else{
-                    Toast.makeText(this, getString(R.string.empty_fav_user), Toast.LENGTH_SHORT).show()
-                    userAdapter.setData(ArrayList())
-                }
-
-            }
-        })
-    }
-
     private fun loadFavoriteUserAsync(){
-        val listDeferredUsers = ArrayList<User>()
         GlobalScope.launch(Dispatchers.Main) {
+            binding.progressBar.visibility = View.VISIBLE
+
             val deferredFavoriteUser = async(Dispatchers.IO) {
                 val cursor = favoriteUserHelper.queryAll()
                 MappingHelper.mapCursorToArrayList(cursor)
             }
 
-            listDeferredUsers.addAll(deferredFavoriteUser.await())
+            binding.progressBar.visibility = View.INVISIBLE
+            val favoriteUsers = deferredFavoriteUser.await()
 
+            // Set data in userAdapter
+            if(favoriteUsers.size > 0){
+                userAdapter.users = favoriteUsers
+            } else{
+                userAdapter.users = ArrayList()
+                Toast.makeText(applicationContext,
+                    getString(R.string.empty_fav_user), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

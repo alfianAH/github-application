@@ -15,7 +15,15 @@ import com.dicoding.picodiploma.githubapplication.entity.User
 
 class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private val users = ArrayList<User>()
+    var users = ArrayList<User>()
+        set(listUsers){
+            if(listUsers.size > 0){
+                users.clear()
+            }
+
+            users.addAll(listUsers)
+            notifyDataSetChanged()
+        }
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         private val binding = ItemUserBinding.bind(itemView)
@@ -55,12 +63,6 @@ class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(users[position])
-    }
-
-    fun setData(items: ArrayList<User>){
-        users.clear()
-        users.addAll(items)
-        notifyDataSetChanged()
     }
 
     /**
