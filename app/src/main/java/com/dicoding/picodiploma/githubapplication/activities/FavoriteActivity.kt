@@ -4,20 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
-import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.FavoriteActivityViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -94,7 +88,7 @@ class FavoriteActivity : AppCompatActivity() {
             favoriteActivityViewModel.loadFavoriteUserAsync(favoriteUserHelper)
         }
 
-        favoriteActivityViewModel.getFavoriteUser().observe(this, Observer { favoriteUser ->
+        favoriteActivityViewModel.getFavoriteUser().observe(this, { favoriteUser ->
             if(favoriteUser != null){
 
                 if(favoriteUser.size > 0){

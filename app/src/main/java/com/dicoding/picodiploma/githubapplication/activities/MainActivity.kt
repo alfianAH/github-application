@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // Get searched user
-        mainActivityViewModel.getSearchedUser().observe(this, Observer { users ->
+        mainActivityViewModel.getSearchedUser().observe(this, { users ->
             // If query is null show init data again
             if (users != null) {
                 userAdapter.setData(users)
@@ -120,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             mainActivityViewModel.setInitUsersFromApi(dataUserName)
         }
 
-        mainActivityViewModel.getInitUsersFromApi().observe(this, Observer { users ->
+        mainActivityViewModel.getInitUsersFromApi().observe(this, { users ->
             if (users != null) {
                 userAdapter.setData(users)
                 showLoading(false)

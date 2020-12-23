@@ -66,7 +66,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // Get User Profile
-        detailActivityViewModel.getUserProfile().observe(this, Observer { userProfile ->
+        detailActivityViewModel.getUserProfile().observe(this, { userProfile ->
             if(userProfile != null){
                 title = userProfile.name // Set the title of activity
                 setUser(userProfile)
