@@ -1,5 +1,7 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import com.dicoding.picodiploma.githubapplication.database.DatabaseContract
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
+import com.dicoding.picodiploma.githubapplication.widget.FavoriteUserWidget
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.user_detail.*
 
@@ -184,6 +187,10 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             setFavoriteStatus(favoriteStatus)
+
+            val appWidgetManager = AppWidgetManager.getInstance(this)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, FavoriteUserWidget::class.java))
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_view)
         }
     }
 

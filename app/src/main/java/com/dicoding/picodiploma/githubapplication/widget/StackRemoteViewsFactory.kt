@@ -32,6 +32,7 @@ internal class StackRemoteViewsFactory(private val context: Context): RemoteView
         )
 
         if(users.size > 0) {
+            widgetItems.clear() // Clear data first
             for (user in users) {
                 widgetItems.add(user.photo)
             }
