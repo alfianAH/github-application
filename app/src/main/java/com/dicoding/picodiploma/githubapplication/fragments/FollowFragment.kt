@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
+import com.dicoding.picodiploma.githubapplication.databinding.FragmentFollowBinding
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_follow.rv_list
 
 class FollowFragment : Fragment() {
 
+    private lateinit var binding: FragmentFollowBinding
     private lateinit var urlFollow: String
     private lateinit var userAdapter: UserAdapter
     private lateinit var detailActivityViewModel: DetailActivityViewModel
@@ -37,7 +37,8 @@ class FollowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_follow, container, false)
+        binding = FragmentFollowBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,9 +91,9 @@ class FollowFragment : Fragment() {
      */
     private fun showLoading(state: Boolean){
         if(state){
-            progress_bar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         } else{
-            progress_bar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

@@ -11,19 +11,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
+import com.dicoding.picodiploma.githubapplication.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.githubapplication.viewmodel.MainActivityViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var dataUserName: Array<String>
-
+    private lateinit var binding: ActivityMainBinding
     private lateinit var userAdapter: UserAdapter
     private lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         showLoading(true)
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         showRecyclerView()
 
         // Search user
-        search_user.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        binding.searchUser.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String): Boolean {
                 showLoading(true)
                 mainActivityViewModel.searchUser(query) // Search user
@@ -86,9 +87,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun showLoading(state: Boolean){
         if(state){
-            progress_bar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         } else{
-            progress_bar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
     }
 
@@ -100,8 +101,8 @@ class MainActivity : AppCompatActivity() {
         userAdapter = UserAdapter(this)
         userAdapter.notifyDataSetChanged()
 
-        rv_list.layoutManager = LinearLayoutManager(this)
-        rv_list.adapter = userAdapter
+        binding.rvList.layoutManager = LinearLayoutManager(this)
+        binding.rvList.adapter = userAdapter
     }
 
     /**

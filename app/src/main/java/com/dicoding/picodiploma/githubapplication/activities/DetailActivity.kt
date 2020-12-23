@@ -16,6 +16,7 @@ import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
+import com.dicoding.picodiploma.githubapplication.databinding.ActivityDetailBinding
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.DetailActivityViewModel
 import com.dicoding.picodiploma.githubapplication.widget.FavoriteUserWidget
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.user_detail.*
 class DetailActivity : AppCompatActivity() {
 
     private var position: Int = 0
-
+    private lateinit var binding: ActivityDetailBinding
     private lateinit var detailActivityViewModel: DetailActivityViewModel
     private lateinit var favoriteUserHelper: FavoriteUserHelper
 
@@ -42,7 +43,8 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         supportActionBar?.elevation = 0f
@@ -77,8 +79,8 @@ class DetailActivity : AppCompatActivity() {
                 sectionsPagerAdapter.setFollowUrl(userProfile.followersUrl.toString(),
                     userProfile.followingUrl.toString())
 
-                view_pager.adapter = sectionsPagerAdapter
-                tabs.setupWithViewPager(view_pager)
+                binding.viewPager.adapter = sectionsPagerAdapter
+                binding.tabs.setupWithViewPager(view_pager)
 
                 // Set listener to favorite button
                 favoriteButtonClickListener(userProfile)
@@ -109,11 +111,11 @@ class DetailActivity : AppCompatActivity() {
         Glide.with(this)
             .load(user.photo)
             .into(img_photo)
-        tv_name.text = user.name
-        tv_username.text = user.username
-        tv_location.text = user.location
-        tv_company.text = user.company
-        tv_repositories.text = repositoryText
+        binding.userDetail.tvName.text = user.name
+        binding.userDetail.tvUsername.text = user.username
+        binding.userDetail.tvLocation.text = user.location
+        binding.userDetail.tvCompany.text = user.company
+        binding.userDetail.tvRepositories.text = repositoryText
     }
 
     /**
@@ -122,9 +124,9 @@ class DetailActivity : AppCompatActivity() {
     private fun setFavoriteStatus(status: Boolean){
         // If status is true, then favorite
         if (status) {
-            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+            binding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
         } else {
-            fab_favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            binding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
     }
 
@@ -141,7 +143,7 @@ class DetailActivity : AppCompatActivity() {
         setFavoriteStatus(favoriteStatus)
 
         // When FAB is clicked, change favorite status
-        fab_favorite.setOnClickListener{
+        binding.fabFavorite.setOnClickListener{
             favoriteStatus = !favoriteStatus
 
             val values = ContentValues()
@@ -213,9 +215,9 @@ class DetailActivity : AppCompatActivity() {
      */
     private fun showLoading(state: Boolean){
         if(state){
-            progress_bar.visibility = View.VISIBLE
+            binding.userDetail.progressBar.visibility = View.VISIBLE
         } else{
-            progress_bar.visibility = View.GONE
+            binding.userDetail.progressBar.visibility = View.GONE
         }
     }
 }

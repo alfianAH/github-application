@@ -10,23 +10,23 @@ import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.CustomOnItemClickListener
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.activities.DetailActivity
+import com.dicoding.picodiploma.githubapplication.databinding.ItemUserBinding
 import com.dicoding.picodiploma.githubapplication.entity.User
-import kotlinx.android.synthetic.main.item_user.view.*
 
 class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private val users = ArrayList<User>()
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
-
+        private val binding = ItemUserBinding.bind(itemView)
         fun bind(user: User){
             with(itemView) {
-                tv_username.text = user.username
-                tv_name.text = user.name
-                tv_location.text = user.location
+                binding.tvUsername.text = user.username
+                binding.tvName.text = user.name
+                binding.tvLocation.text = user.location
                 Glide.with(this)
                     .load(user.photo)
-                    .into(img_photo)
+                    .into(binding.imgPhoto)
 
                 itemView.setOnClickListener(CustomOnItemClickListener(adapterPosition,
                     object : CustomOnItemClickListener.OnItemClickCallback{

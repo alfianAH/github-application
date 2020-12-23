@@ -1,27 +1,38 @@
 package com.dicoding.picodiploma.githubapplication.activities
 
 import android.content.Intent
+import android.database.ContentObserver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.entity.User
 import com.dicoding.picodiploma.githubapplication.adapter.UserAdapter
+import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
+import com.dicoding.picodiploma.githubapplication.databinding.ActivityFavoriteBinding
+import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import com.dicoding.picodiploma.githubapplication.viewmodel.FavoriteActivityViewModel
-import kotlinx.android.synthetic.main.activity_favorite.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class FavoriteActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFavoriteBinding
     private lateinit var favoriteActivityViewModel: FavoriteActivityViewModel
     private lateinit var userAdapter: UserAdapter
     private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite)
+        binding = ActivityFavoriteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         favoriteActivityViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(FavoriteActivityViewModel::class.java)
@@ -31,6 +42,19 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.favorite_user)
 
         showRecyclerView()
+
+//        val handlerThread = HandlerThread("DataObserver")
+//        handlerThread.start()
+//        val handler = Handler(handlerThread.looper)
+//
+//        val myObserver = object : ContentObserver(handler){
+//            override fun onChange(selfChange: Boolean) {
+//                super.onChange(selfChange)
+//                loadFavoriteUser()
+//            }
+//        }
+//
+//        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
         // Open connection
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
@@ -102,6 +126,19 @@ class FavoriteActivity : AppCompatActivity() {
         })
     }
 
+    private fun loadFavoriteUserAsync(){
+        val listDeferredUsers = ArrayList<User>()
+        GlobalScope.launch(Dispatchers.Main) {
+            val deferredFavoriteUser = async(Dispatchers.IO) {
+                val cursor = favoriteUserHelper.queryAll()
+                MappingHelper.mapCursorToArrayList(cursor)
+            }
+
+            listDeferredUsers.addAll(deferredFavoriteUser.await())
+
+        }
+    }
+
     /**
      * Show Recycler View
      */
@@ -109,7 +146,7 @@ class FavoriteActivity : AppCompatActivity() {
         userAdapter = UserAdapter(this)
         userAdapter.notifyDataSetChanged()
 
-        rv_list.layoutManager = LinearLayoutManager(this)
-        rv_list.adapter = userAdapter
+        binding.rvList.layoutManager = LinearLayoutManager(this)
+        binding.rvList.adapter = userAdapter
     }
 }
