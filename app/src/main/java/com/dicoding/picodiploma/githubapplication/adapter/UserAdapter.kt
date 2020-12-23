@@ -43,7 +43,6 @@ class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdap
 
                         moveIntent.putExtra(DetailActivity.EXTRA_URL_PROFILE, user.urlProfile)
                         moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
-                        moveIntent.putExtra(DetailActivity.EXTRA_POSITION, position)
 
                         activity.startActivityForResult(moveIntent, DetailActivity.REQUEST_UPDATE)
                     }
@@ -63,30 +62,5 @@ class UserAdapter(private val activity: Activity): RecyclerView.Adapter<UserAdap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(users[position])
-    }
-
-    /**
-     * Add item to Recycler View
-     */
-    fun addItem(user: User){
-        users.add(user)
-        notifyItemInserted(users.size - 1)
-    }
-
-    /**
-     * Update item in Recycler View
-     */
-    fun updateItem(position: Int, user: User){
-        users[position] = user
-        notifyItemChanged(position, user)
-    }
-
-    /**
-     * Remove item from Recycler View
-     */
-    fun removeItem(position: Int){
-        users.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, users.size)
     }
 }

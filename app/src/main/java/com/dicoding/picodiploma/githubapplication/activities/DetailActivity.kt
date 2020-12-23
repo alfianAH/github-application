@@ -3,7 +3,6 @@ package com.dicoding.picodiploma.githubapplication.activities
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.ContentValues
-import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,7 +24,6 @@ import kotlinx.android.synthetic.main.user_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
-    private var position: Int = 0
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailActivityViewModel: DetailActivityViewModel
     private lateinit var uriWithUsername: Uri
@@ -33,7 +31,6 @@ class DetailActivity : AppCompatActivity() {
     companion object{
         const val EXTRA_URL_PROFILE = "extra_url_profile"
         const val EXTRA_USER = "extra_user"
-        const val EXTRA_POSITION = "extra_position"
         const val REQUEST_UPDATE = 200
     }
 
@@ -44,8 +41,6 @@ class DetailActivity : AppCompatActivity() {
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         supportActionBar?.elevation = 0f
-
-        position = intent.getIntExtra(EXTRA_POSITION, 0)
 
         showLoading(true)
 
@@ -136,10 +131,6 @@ class DetailActivity : AppCompatActivity() {
             favoriteStatus = !favoriteStatus
 
             val values = ContentValues()
-
-            val intent = Intent()
-            intent.putExtra(EXTRA_USER, user)
-            intent.putExtra(EXTRA_POSITION, position)
 
             // If true, add user to table
             if(favoriteStatus){

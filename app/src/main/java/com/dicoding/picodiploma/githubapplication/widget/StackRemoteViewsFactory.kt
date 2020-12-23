@@ -11,13 +11,11 @@ import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.githubapplication.R
 import com.dicoding.picodiploma.githubapplication.database.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
-import com.dicoding.picodiploma.githubapplication.database.FavoriteUserHelper
 import com.dicoding.picodiploma.githubapplication.helper.MappingHelper
 import java.lang.Exception
 
 internal class StackRemoteViewsFactory(private val context: Context): RemoteViewsService.RemoteViewsFactory {
 
-//    private lateinit var favoriteUserHelper: FavoriteUserHelper
     private val TAG = StackRemoteViewsFactory::class.java.simpleName
     private val widgetItems = ArrayList<String>()
 
