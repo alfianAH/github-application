@@ -51,6 +51,7 @@ internal class StackRemoteViewsFactory(private val context: Context): RemoteView
         val rv = RemoteViews(context.packageName, R.layout.widget_item)
 
         try{
+            // Get profile picture from link
             val bitmap: Bitmap = Glide.with(context)
                 .asBitmap()
                 .load(widgetItems[position])

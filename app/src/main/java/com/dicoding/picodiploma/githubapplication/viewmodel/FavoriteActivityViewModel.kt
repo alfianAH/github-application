@@ -23,7 +23,6 @@ class FavoriteActivityViewModel: ViewModel() {
      */
     fun loadFavoriteUserAsync(favoriteUserHelper: FavoriteUserHelper){
         val listDeferredUsers = ArrayList<User>()
-        Log.d("async", "LoadAsync")
         GlobalScope.launch(Dispatchers.Main) {
             val deferredFavoriteUser = async(Dispatchers.IO) {
                 val cursor = favoriteUserHelper.queryAll()

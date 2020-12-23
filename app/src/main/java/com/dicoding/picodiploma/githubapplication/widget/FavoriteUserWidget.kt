@@ -19,14 +19,12 @@ class FavoriteUserWidget : AppWidgetProvider() {
     companion object{
         private const val TOAST_ACTION = "com.dicoding.picodiploma.TOAST_ACTION"
         const val EXTRA_ITEM = "com.dicoding.picodiploma.EXTRA_ITEM"
-        private val TAG = FavoriteUserWidget::class.java.simpleName
 
         private fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
-            Log.d(TAG, "updateAppWidget")
             val intent = Intent(context, StackWidgetService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()

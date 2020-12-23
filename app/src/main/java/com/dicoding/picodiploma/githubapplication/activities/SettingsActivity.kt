@@ -12,6 +12,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Set action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.settings)
 
         supportFragmentManager.beginTransaction().add(R.id.container, SettingsFragment()).commit()
     }
