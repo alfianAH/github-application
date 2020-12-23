@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Github</string>
+
+    <string name="username_dummy">NamaPengguna Palsu</string>
+    <string name="name_dummy">Nama Palsu</string>
+    <string name="location_dummy">Lokasi Palsu</string>
+    <string name="repository_dummy">Repositori Palsu</string>
+    <string name="company_dummy">Perusahaan Palsu</string>
+    <string name="follow_dummy">999</string>
+
+    <plurals name="numberOfRepositories">
+        <item quantity="other">%d repositori</item>
+    </plurals>
+
+    <plurals name="numberOfFollowers">
+        <item quantity="other">%d pengikut</item>
+    </plurals>
+
+    <string name="repository">repositori</string>
+    <string name="followers">pengikut</string>
+    <string name="following">mengikuti</string>
+    <string name="dot">•</string>
+    <string name="github_logo">Logo Github</string>
+    <string name="people">Orang</string>
+    <string name="location">Lokasi</string>
+    <string name="company">Perusahaan</string>
+    <string name="search_user">Cari pengguna</string>
+    <string name="settings">Pengaturan</string>
+    <string name="change_language">Ubah bahasa</string>
+    <string name="change">Ubah</string>
+    <string name="favorite">Favorit</string>
+    <string name="favorite_user">User Favorit</string>
+
+    <string-array name="username">
+        <item>JakeWharton</item>
+        <item>amitshekhariitbhu</item>
+        <item>romainguy</item>
+        <item>chrisbanes</item>
+        <item>tipsy</item>
+        <item>ravi8x</item>
+        <item>jasoet</item>
+        <item>budioktaviyan</item>
+        <item>hendisantika</item>
+        <item>sidiqpermana</item>
+    </string-array>
+    <string name="add_fav_user">ditambahkan ke user favorit</string>
+    <string name="remove_fav_user">dihapus dari user favorit</string>
+    <string name="add_failed">Gagal menambah user</string>
+    <string name="update_failed">Gagal mengupdate user</string>
+    <string name="delete_failed">Gagal menghapus user</string>
+    <string name="empty_fav_user">User Favorit masih kosong</string>
+    <string name="reminder_title">Aktifkan pengingat</string>
+    <string name="reminder_summary">Terima notifikasi pada pukul 09.00</string>
+    <string name="opening_message">Selamat pagi. Semoga harimu menyenangkan.</string>
+    <string name="turn_on_reminder">Pengingat dinyalakan</string>
+    <string name="turn_off_reminder">Pengingat dimatikan</string>
+    <string name="empty_text">TIDAK ADA DATA</string>
+</resources>
