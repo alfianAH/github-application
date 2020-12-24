@@ -99,11 +99,6 @@ class DetailActivity : AppCompatActivity() {
         tv_location.text = user.location
         tv_company.text = user.company
         tv_repositories.text = repositoryText
-//        binding.userDetail.tvName.text = user.name
-//        binding.userDetail.tvUsername.text = user.username
-//        binding.userDetail.tvLocation.text = user.location
-//        binding.userDetail.tvCompany.text = user.company
-//        binding.userDetail.tvRepositories.text = repositoryText
     }
 
     /**
@@ -190,10 +185,8 @@ class DetailActivity : AppCompatActivity() {
     private fun showLoading(state: Boolean){
         if(state){
             progress_bar.visibility = View.VISIBLE
-//            binding.userDetail.progressBar.visibility = View.VISIBLE
         } else{
             progress_bar.visibility = View.GONE
-//            binding.userDetail.progressBar.visibility = View.GONE
         }
     }
 }
