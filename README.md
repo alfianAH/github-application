@@ -15,4 +15,4 @@ This project has two modules, app and consumerapp.
 
 ## Preview
 
-![preview](images/preview.gif)
+<img src="images/preview.gif" alt="preview" width="250px">
