@@ -12,8 +12,8 @@ import com.dicoding.picodiploma.consumerapp.R
 import com.dicoding.picodiploma.consumerapp.receiver.AlarmReceiver
 
 class SettingsFragment: PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener{
-    private lateinit var LANGUAGE: String
-    private lateinit var REMINDER: String
+    private lateinit var language: String
+    private lateinit var reminder: String
 
     private lateinit var changeLanguagePreference: Preference
     private lateinit var isReminderPreference: SwitchPreference
@@ -41,8 +41,8 @@ class SettingsFragment: PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if(key == REMINDER){
-            if(sharedPreferences.getBoolean(REMINDER, false)){
+        if(key == reminder){
+            if(sharedPreferences.getBoolean(reminder, false)){
                 alarmReceiver.setRepeatingAlarm(context as Context, "09:00",
                     getString(R.string.opening_message),
                     getString(R.string.turn_on_reminder))
@@ -54,11 +54,11 @@ class SettingsFragment: PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     }
 
     private fun init(){
-        LANGUAGE = resources.getString(R.string.key_language)
-        REMINDER = resources.getString(R.string.key_reminder)
+        language = resources.getString(R.string.key_language)
+        reminder = resources.getString(R.string.key_reminder)
 
-        changeLanguagePreference = findPreference<Preference>(LANGUAGE) as Preference
-        isReminderPreference = findPreference<SwitchPreference>(REMINDER) as SwitchPreference
+        changeLanguagePreference = findPreference<Preference>(language) as Preference
+        isReminderPreference = findPreference<SwitchPreference>(reminder) as SwitchPreference
 
         alarmReceiver = AlarmReceiver()
     }

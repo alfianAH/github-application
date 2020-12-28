@@ -55,9 +55,8 @@ class FavoriteActivity : AppCompatActivity() {
         if(savedInstanceState == null){
             loadFavoriteUserAsync()
         } else{
-            val users = savedInstanceState.getParcelableArrayList<User>(EXTRA_STATE)
-            if(users != null){
-                userAdapter.users = users
+            savedInstanceState.getParcelableArrayList<User>(EXTRA_STATE)?.let{
+                userAdapter.users = it
             }
         }
     }
