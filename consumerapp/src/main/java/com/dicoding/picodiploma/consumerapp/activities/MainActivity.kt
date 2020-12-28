@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                if(query?.isEmpty()!!){
+                if(query?.isEmpty() as Boolean){
                     prepareDataFromApi()
                 }
                 return false

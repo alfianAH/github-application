@@ -38,7 +38,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     fun setPageTitle(user: User){
         followersValue = context.resources.getQuantityString(
-            R.plurals.numberOfFollowers, user.followers!!, user.followers)
+            R.plurals.numberOfFollowers, user.followers as Int, user.followers)
         followingValue = "${user.following} ${context.getString(R.string.following)}"
     }
 
