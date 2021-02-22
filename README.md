@@ -1,6 +1,6 @@
 # Github Application
 
-This repository is my submission in Dicoding for Android Fundamental.
+Appplication for Github using Github API.
 
 Features:
 1. Search users using Github API
