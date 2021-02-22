@@ -20,7 +20,7 @@ class MainActivityViewModel: ViewModel() {
     private val client = AsyncHttpClient()
 
     private fun addHeaderClient(){
-        client.addHeader("Authorization", BuildConfig.ApiKey)
+        client.addHeader("Authorization", "token " + BuildConfig.ApiKey)
         client.addHeader("User-Agent", "request")
     }
 
